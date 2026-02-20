@@ -389,8 +389,12 @@ F1 = 2 \times \frac{0.67 \times 0.80}{0.67 + 0.80} = 0.73
 $$
 
 ---
+layout: two-cols-header
+---
 
 # Macro F1 vs Weighted F1
+
+::left::
 
 ### Macro F1
 각 클래스의 F1을 **단순 평균**
@@ -399,19 +403,11 @@ $$
 \frac{F1_0 + F1_1 + ... + F1_6}{7}
 $$
 
-<v-click>
-
 **특징**:
 - 모든 토픽을 **동등하게** 평가
 - 소수 클래스 성능도 **중요**
 
-</v-click>
-
-</div>
-
-<div>
-
-<v-click>
+::right::
 
 ### Weighted F1
 클래스 개수에 비례하여 **가중평균**
@@ -423,21 +419,13 @@ $$
 **특징**:
 - 많은 데이터 가진 클래스에 **큰 비중**
 
-</v-click>
+::bottom::
 
-</div>
-
-</div>
-
-<v-click>
-
-<div class="mt-8 p-4 bg-green-100 rounded">
+<div class="p-4 bg-green-100 rounded">
 
 ✅ **이 과제**: Macro F1 사용 → 모든 토픽 공평하게 평가
 
 </div>
-
-</v-click>
 
 ---
 layout: center
@@ -448,20 +436,16 @@ class: text-center
 ## MLflow의 필요성
 
 ---
+layout: default
+---
 
 # 실험 관리가 없다면?
-
-<div class="text-red-500 text-xl mt-10">
 
 ```
 실험 1: F1 = 0.82 (어떤 설정이었지...? 🤔)
 실험 2: F1 = 0.85 (뭘 바꿨더라...? 😰)
 실험 3: F1 = 0.79 (왜 떨어졌지...? 😱)
 ```
-
-</div>
-
-<v-click>
 
 <div class="mt-10 p-4 bg-blue-100 rounded">
 
@@ -472,13 +456,13 @@ class: text-center
 
 </div>
 
-</v-click>
-
+---
+layout: default
 ---
 
 # MLflow: 모든 실험을 기록하자
 
-```python {all|2-3|4-5|6|all}
+```python {all|2-3|4-5|7-9|11-12|all}
 with mlflow.start_run(run_name="exp1-maxfeat5000-C1.0"):
     # 파라미터 기록
     mlflow.log_param('max_features', 5000)
@@ -493,14 +477,13 @@ with mlflow.start_run(run_name="exp1-maxfeat5000-C1.0"):
     mlflow.log_artifact('confusion_matrix.png')
 ```
 
-<v-click>
+<div class="mt-4"> </div>
 
 ### ✅ 장점
+
 - 모든 실험이 **Dagshub**에 자동 저장
 - **재현 가능**
 - **비교 용이** (UI 제공)
-
-</v-click>
 
 ---
 
