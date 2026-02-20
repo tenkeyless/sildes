@@ -310,12 +310,12 @@ class: text-center
 ## Accuracy는 충분하지 않다
 
 ---
+layout: two-cols-header
+---
 
 # Accuracy의 함정
 
-<div class="grid grid-cols-2 gap-8">
-
-<div>
+::left::
 
 ### 예시 상황
 
@@ -328,8 +328,6 @@ class: text-center
 무조건 "정치"라고 예측
 ```
 
-<v-click>
-
 **결과**:
 ```
 Accuracy = 90%
@@ -339,13 +337,7 @@ Accuracy = 90%
 - 경제 뉴스는 **전혀 못 맞춤** 😱
 - 쓸모없는 모델!
 
-</v-click>
-
-</div>
-
-<div>
-
-<v-click>
+::right::
 
 ### 해결책: F1-Score
 
@@ -358,21 +350,15 @@ $$
 - **Precision**: 예측한 것 중 맞춘 비율
 - **Recall**: 실제 것 중 찾아낸 비율
 
-</v-click>
-
-</div>
-
-</div>
-
+---
+layout: two-cols-header
 ---
 
 # Precision, Recall, F1-Score
 
+::left::
+
 ### 예시: "경제" 토픽 분류
-
-<div class="grid grid-cols-2 gap-4 mt-4">
-
-<div>
 
 ```
 실제 경제: 100개
@@ -380,50 +366,31 @@ $$
 실제로 경제가 맞는 것: 80개
 ```
 
-<v-click>
+#### **Precision (정밀도)**
 
-**Precision (정밀도)**
 $$
 P = \frac{80}{120} = 0.67
 $$
 예측한 것 중 맞춘 비율
 
-</v-click>
+#### **Recall (재현율)**
 
-</div>
-
-<div>
-
-<v-click>
-
-**Recall (재현율)**
 $$
 R = \frac{80}{100} = 0.80
 $$
 실제 것 중 찾아낸 비율
 
-</v-click>
+::right::
 
-<v-click>
+### **F1-Score**
 
-**F1-Score**
 $$
 F1 = 2 \times \frac{0.67 \times 0.80}{0.67 + 0.80} = 0.73
 $$
 
-</v-click>
-
-</div>
-
-</div>
-
 ---
 
 # Macro F1 vs Weighted F1
-
-<div class="grid grid-cols-2 gap-8 mt-8">
-
-<div>
 
 ### Macro F1
 각 클래스의 F1을 **단순 평균**
