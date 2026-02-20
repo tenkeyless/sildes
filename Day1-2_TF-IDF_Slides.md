@@ -261,14 +261,14 @@ graph LR
 - **가장 높은** 확률의 토픽 선택
 
 ---
-layout: top_img-bottom_text
+layout: img_caption
 ---
 
 # Regularization: C 파라미터
 
-::top::
+::img-fit-width::
 
-```mermaid {scale: 0.6}
+```mermaid{scale:1.0}
 graph TD
     A["C 값"] --> B{크기}
     B -->|"작음: C=0.1"| C["강한 규제"]
@@ -285,27 +285,21 @@ graph TD
 ```
 
 ---
+layout: default
+---
 
 # 실험 전략
-
-<v-clicks>
 
 1. **Baseline**: C=1.0으로 시작
 2. **실험 1**: C=0.1 시도 → Underfitting 확인
 3. **실험 2**: C=10.0 시도 → Overfitting 확인
 4. **최적값 탐색**: 성능이 가장 좋은 값 찾기
 
-</v-clicks>
-
-<v-click>
-
 <div class="mt-8 p-4 bg-blue-100 rounded">
 
 💡 **핵심**: 한 번에 하나씩 변경하며 체계적으로 실험!
 
 </div>
-
-</v-click>
 
 ---
 layout: center

@@ -96,6 +96,19 @@
   @apply pb-2;
 }
 
+/* img_caption: 제목·부제, 캡션 영역 */
+.slidev-layout.img-caption .row-header {
+  @apply pb-2;
+}
+.slidev-layout.img-caption .row-caption {
+  @apply pt-1;
+}
+
+/* img_caption: JS 자동 스케일 계산과 충돌 방지를 위해 최소 스타일만 유지 */
+.slidev-layout.img-caption .row-img {
+  @apply min-h-0;
+}
+
 /* top_img-bottom_text: 위(이미지/다이어그램)와 아래(텍스트) 사이 세로 간격 */
 .slidev-layout.top-img-bottom-text .row-bottom {
   @apply pt-6;
