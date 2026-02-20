@@ -3,6 +3,17 @@
     @apply -mt-2 opacity-50 mb-4;
   }
 
+  /* 제목과 바로 다음 내용(단락·리스트) 사이 세로 간격 */
+  h2 + p, h2 + ul, h2 + ol, h2 + div {
+    @apply mt-2;
+  }
+  h3 + p, h3 + ul, h3 + ol, h3 + div {
+    @apply mt-2;
+  }
+  h4 + p, h4 + ul, h4 + ol, h4 + div {
+    @apply mt-1;
+  }
+
   p + h2, ul + h2, table + h2 {
     @apply mt-10;
   }
@@ -73,6 +84,11 @@
   h1 {
     @apply text-6xl font-500 leading-20;
   }
+}
+
+/* two-cols-header: 좌우 컬럼 사이 간격 */
+.slidev-layout.two-cols-header {
+  column-gap: 1.5rem;
 }
 
 /* top_img-bottom_text: 제목·부제는 기본 레이아웃과 동일한 크기·줄간격 유지 */
