@@ -1,0 +1,30 @@
+/* 제목: Pretendard (CDN은 아래에서 로드) */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+/* 본문: 이롭게바탕체 (눈누 https://noonnu.cc/font_page/4) */
+@import url('https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css');
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3 {
+  font-family: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* 부제: 제목 바로 아래 작은 문장 (h1 + p) */
+.slidev-layout h1 + p {
+  font-family: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.03rem;
+}
+
+/* 일반 슬라이드 부제만 회색 (cover/intro는 기본 색 유지) */
+.slidev-layout:not(.cover):not(.intro) h1 + p {
+  color: #4d4d4d;
+}
+
+.slidev-layout p,
+.slidev-layout li {
+  font-family: 'Iropke Batang', 'Pretendard', serif;
+}
