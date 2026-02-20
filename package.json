@@ -1,10 +1,6 @@
 {
-  "scripts": {
-    "launcher": "cd slidev-launcher && npm install && npm start"
-  },
   "dependencies": {
-    "@slidev/cli": "^52.12.0",
-    "@slidev/theme-default": "^0.25.0",
-    "@slidev/theme-seriph": "^0.25.0"
+    "codemirror-theme-vars": "^0.1.2",
+    "prism-theme-vars": "^0.2.4"
   }
 }

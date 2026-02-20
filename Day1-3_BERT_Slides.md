@@ -1,5 +1,5 @@
 ---
-theme: default
+theme: ./theme-cnu
 background: https://cover.sli.dev
 title: 'Day 1-3: BERT와 Transformer'
 info: |

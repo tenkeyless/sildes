@@ -8,11 +8,14 @@ WORKDIR /slidev
 # playwright 등의 브라우저는 무거우므로 제외하거나 필요시 추가
 RUN npm install -g @slidev/cli @antfu/utils
 
-# 4. 포트 설정
+# 4. 컨테이너 시작 시 /slidev에서 npm install (theme-cnu 등 로컬 테마 의존성)
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+# 5. 포트 설정
 EXPOSE 3030
 
-# 5. 실행 명령
-# --remote 옵션은 Docker 내부에서 실행될 때 외부 접속을 허용하기 위해 필요합니다.
-#ENTRYPOINT ["slidev", "--remote"]
+# 6. 실행 명령 (실제 파일명은 런처/run 시 인자로 전달됨)
 CMD ["slidev", "--remote"]
 

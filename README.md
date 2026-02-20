@@ -4,27 +4,28 @@
 
 ## 요구 사항
 
-- Docker (Apple Silicon M1 호환 이미지 사용)
-
-## Docker 이미지 빌드
-
-이미지가 없다면 먼저 빌드합니다.
-
-```bash
-docker build -t my-slidev:m1 .
-```
+- **Docker만** 있으면 됩니다 (Node/npm 설치 불필요, Apple Silicon M1 호환)
 
 ## 슬라이드 실행
 
-### 방법 1: 웹 런처 사용 (권장)
+### 방법 1: 웹 런처 — Docker로 실행 (권장, npm 불필요)
 
-브라우저에서 슬라이드 파일 목록을 보고, 클릭 한 번으로 해당 파일을 Docker로 띄울 수 있습니다. **메인 폴더(slides/)에서** 실행합니다.
+**메인 폴더(slides/)에서** 아래만 실행하면 됩니다. 이미지가 없으면 스크립트가 자동으로 빌드합니다.
+
+```bash
+chmod +x run-launcher.sh
+./run-launcher.sh
+```
+
+브라우저에서 **http://localhost:3040** 을 열고, 원하는 슬라이드 파일을 클릭하면 Slidev가 실행되며 **http://localhost:3030** 이 새 탭에서 열립니다.
+
+### 방법 1-2: 웹 런처 — npm으로 실행
+
+Node가 설치되어 있다면 메인 폴더에서:
 
 ```bash
 npm run launcher
 ```
-
-브라우저에서 **http://localhost:3040** 을 열고, 원하는 슬라이드 파일을 클릭하면 Slidev가 실행되며 **http://localhost:3030** 이 새 탭에서 열립니다. (런처 서버는 3040, Slidev는 3030 포트 사용)
 
 ### 방법 2: 스크립트 사용 (선택)
 
@@ -35,7 +36,16 @@ chmod +x run-slidev.sh
 ./run-slidev.sh Day1-3_BERT_Slides.md
 ```
 
-### 방법 3: docker run 직접 사용
+### 방법 3: Docker 이미지 수동 빌드
+
+이미지를 직접 빌드할 때:
+
+```bash
+docker build -t my-slidev:m1 .
+docker build -t slidev-launcher slidev-launcher/
+```
+
+### 방법 4: docker run 직접 사용
 
 ```bash
 docker run --name slidev-m1 --rm -it \

@@ -8,8 +8,10 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const app = express();
 const PORT = 3040;
 
-// 프로젝트 루트 = slidev-launcher의 상위 디렉터리 (슬라이드 .md가 있는 곳)
-const PROJECT_ROOT = resolve(__dirname, '..');
+// Docker로 런처를 띄울 때: WORKSPACE=마운트 경로, HOST_PROJECT_PATH=호스트 절대경로(필수)
+const IN_DOCKER = process.env.WORKSPACE != null;
+const LIST_DIR = IN_DOCKER ? process.env.WORKSPACE : resolve(__dirname, '..');
+const DOCKER_VOLUME_PATH = process.env.HOST_PROJECT_PATH || LIST_DIR;
 
 app.use(express.json());
 app.use(express.static(join(__dirname, 'public')));
@@ -22,7 +24,7 @@ function isSlideFile(name) {
 /** GET /api/files — 슬라이드 .md 파일 목록 */
 app.get('/api/files', async (_req, res) => {
   try {
-    const names = await readdir(PROJECT_ROOT);
+    const names = await readdir(LIST_DIR);
     const files = names.filter(isSlideFile).sort();
     res.json({ files });
   } catch (err) {
@@ -66,16 +68,16 @@ app.post('/api/run', async (req, res) => {
     await run('docker', ['stop', 'slidev-m1']).catch(() => {});
     await run('docker', ['rm', 'slidev-m1']).catch(() => {});
 
-    // 새 컨테이너 실행 (-t: TTY 할당해서 Slidev가 백그라운드에서도 유지되도록)
+    // 새 컨테이너 실행 (-t: TTY 유지, --rm: 종료 시 컨테이너 자동 삭제)
     await run('docker', [
-      'run', '-d', '-t', '--name', 'slidev-m1',
-      '-v', `${PROJECT_ROOT}:/slidev`,
+      'run', '-d', '-t', '--rm', '--name', 'slidev-m1',
+      '-v', `${DOCKER_VOLUME_PATH}:/slidev`,
       '-p', '3030:3030',
       'my-slidev:m1', 'slidev', file, '--remote',
-    ], { cwd: PROJECT_ROOT });
+    ], { cwd: LIST_DIR });
 
-    // Slidev가 포트를 열기까지 잠시 대기 후, 컨테이너가 아직 살아있는지 확인
-    await new Promise((r) => setTimeout(r, 2500));
+    // node_modules 마운트 방식이면 Slidev만 기동하면 됨 (2~3초면 충분)
+    await new Promise((r) => setTimeout(r, 3500));
     const psOut = await runOut('docker', ['ps', '-q', '-f', 'name=slidev-m1']).catch(() => '');
 
     if (!psOut) {
@@ -103,5 +105,5 @@ app.post('/api/run', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Slidev 런처: http://localhost:${PORT}`);
-  console.log(`프로젝트 경로: ${PROJECT_ROOT}`);
+  console.log(`목록 경로: ${LIST_DIR}${IN_DOCKER ? ` (호스트 마운트: ${DOCKER_VOLUME_PATH})` : ''}`);
 });
