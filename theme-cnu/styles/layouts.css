@@ -74,3 +74,8 @@
     @apply text-6xl font-500 leading-20;
   }
 }
+
+/* top_img-bottom_text: 제목·부제는 기본 레이아웃과 동일한 크기·줄간격 유지 */
+.slidev-layout.top-img-bottom-text .row-header {
+  @apply pb-2;
+}

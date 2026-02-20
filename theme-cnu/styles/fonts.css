@@ -24,6 +24,21 @@
   color: #4d4d4d;
 }
 
+/* top_img-bottom_text: 헤더(제목·부제)도 다른 슬라이드와 동일한 Pretendard */
+.slidev-layout.top-img-bottom-text .row-header h1,
+.slidev-layout.top-img-bottom-text .row-header h1 + p {
+  font-family: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+}
+.slidev-layout.top-img-bottom-text .row-header h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.slidev-layout.top-img-bottom-text .row-header h1 + p {
+  font-weight: 300;
+  letter-spacing: -0.03rem;
+  color: #4d4d4d;
+}
+
 .slidev-layout p,
 .slidev-layout li {
   font-family: 'Iropke Batang', 'Pretendard', serif;
