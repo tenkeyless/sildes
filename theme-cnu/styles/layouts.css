@@ -95,3 +95,8 @@
 .slidev-layout.top-img-bottom-text .row-header {
   @apply pb-2;
 }
+
+/* top_img-bottom_text: 위(이미지/다이어그램)와 아래(텍스트) 사이 세로 간격 */
+.slidev-layout.top-img-bottom-text .row-bottom {
+  @apply pt-6;
+}

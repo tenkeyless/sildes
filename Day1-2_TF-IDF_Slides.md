@@ -1,5 +1,5 @@
 ---
-theme: default
+theme: ./theme-cnu
 background: https://cover.sli.dev
 title: 'Day 1-2: TF-IDF와 텍스트 분류'
 info: |
@@ -30,39 +30,25 @@ layout: default
 
 <v-clicks>
 
-- 🔢 **텍스트를 숫자로**: TF-IDF 벡터화 이해
-- 🤖 **머신러닝 분류기**: Logistic Regression 학습
-- 📊 **평가 지표**: F1-Score의 중요성
-- ⚙️ **하이퍼파라미터**: max_features, C, n-gram 조정
-- 🔬 **체계적 실험**: MLflow로 실험 관리
+- 🔢 **텍스트를 숫자로** : TF-IDF 벡터화 이해
+- 🤖 **머신러닝 분류기** : Logistic Regression 학습
+- 📊 **평가 지표** : F1-Score의 중요성
+- ⚙️ **하이퍼파라미터** : max_features, C, n-gram 조정
+- 🔬 **체계적 실험** : MLflow로 실험 관리
 
 </v-clicks>
 
-<div class="abs-br m-6 flex gap-2">
-  <span>시간: 1.5시간</span>
-</div>
-
 ---
-layout: two-cols
+layout: top_img-bottom_text
 ---
 
 # 왜 텍스트를 숫자로?
 
 컴퓨터는 텍스트를 직접 이해하지 못합니다
 
-```python
-# 컴퓨터가 보는 것
-text = "코스피 상승"
-# → 그냥 문자열
+::top::
 
-# 머신러닝 모델이 필요한 것
-vector = [0.8, 0.3, 0.1, ...]
-# → 숫자 배열
-```
-
-::right::
-
-<div class="mt-20">
+<div class="flex justify-center">
 
 ```mermaid {scale: 0.7}
 graph LR
@@ -77,15 +63,27 @@ graph LR
 
 </div>
 
+::bottom::
+
+```python
+# 컴퓨터가 보는 것
+text = "코스피 상승"
+# → 그냥 문자열
+
+# 머신러닝 모델이 필요한 것
+vector = [0.8, 0.3, 0.1, ...]
+# → 숫자 배열
+```
+
+---
+layout: two-cols-header
 ---
 
 # Bag-of-Words (BoW)
 
 가장 단순한 방법: 단어 등장 횟수 세기
 
-<div class="grid grid-cols-2 gap-4">
-
-<div>
+::left::
 
 **문장들**
 ```
@@ -99,9 +97,15 @@ graph LR
 [코스피, 상승, 하락, 환율]
 ```
 
+<v-click>
+
+<div class="text-red-500 mt-4">
+❌ 문제점: 모든 단어를 동등하게 취급
 </div>
 
-<div>
+</v-click>
+
+::right::
 
 **벡터 표현**
 ```python
@@ -115,18 +119,6 @@ graph LR
         # 상승 1번, 환율 1번
 ```
 
-</div>
-
-</div>
-
-<v-click>
-
-<div class="text-red-500 mt-4">
-❌ 문제점: 모든 단어를 동등하게 취급
-</div>
-
-</v-click>
-
 ---
 layout: center
 class: text-center
@@ -138,12 +130,12 @@ class: text-center
 중요한 단어에 가중치를 부여하자!
 
 ---
+layout: two-cols-header
+---
 
 # TF-IDF 수식
 
-<div class="grid grid-cols-2 gap-8 mt-10">
-
-<div>
+::left::
 
 ### TF (Term Frequency)
 문서 내 단어 빈도
@@ -163,9 +155,7 @@ $$
 
 </v-click>
 
-</div>
-
-<div>
+::right::
 
 <v-click>
 
@@ -187,17 +177,15 @@ $$
 
 </v-click>
 
-</div>
-
-</div>
-
+---
+layout: top_img-bottom_text
 ---
 
 # TF-IDF 예시
 
-<div class="grid grid-cols-2 gap-4">
+::top::
 
-<div>
+<div class="grid grid-cols-2 gap-4">
 
 ```mermaid {scale: 0.6}
 graph TD
@@ -209,10 +197,6 @@ graph TD
     style D fill:#fbb
 ```
 
-</div>
-
-<div>
-
 ```mermaid {scale: 0.6}
 graph TD
     E["단어: 그리고"] --> F{여러 문서에<br/>등장?}
@@ -223,7 +207,7 @@ graph TD
 
 </div>
 
-</div>
+::bottom::
 
 <v-clicks>
 
