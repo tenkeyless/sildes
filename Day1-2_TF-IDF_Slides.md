@@ -16,27 +16,17 @@ mdc: true
 
 딥러닝 부트캠프 - 텍스트를 숫자로 변환하기
 
-<div class="pt-12">
-  <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
-    시작하기 <carbon:arrow-right class="inline"/>
-  </span>
-</div>
-
 ---
 layout: default
 ---
 
 # 학습 목표
 
-<v-clicks>
-
 - 🔢 **텍스트를 숫자로** : TF-IDF 벡터화 이해
 - 🤖 **머신러닝 분류기** : Logistic Regression 학습
 - 📊 **평가 지표** : F1-Score의 중요성
 - ⚙️ **하이퍼파라미터** : max_features, C, n-gram 조정
 - 🔬 **체계적 실험** : MLflow로 실험 관리
-
-</v-clicks>
 
 ---
 layout: top_img-bottom_text
@@ -48,8 +38,6 @@ layout: top_img-bottom_text
 
 ::top::
 
-<div class="flex justify-center">
-
 ```mermaid
 graph LR
     A["텍스트:<br/>코스피 상승"] --> B[TF-IDF]
@@ -60,8 +48,6 @@ graph LR
     style B fill:#bbf
     style D fill:#bfb
 ```
-
-</div>
 
 ::bottom::
 
@@ -97,13 +83,9 @@ layout: two-cols-header
 [코스피, 상승, 하락, 환율]
 ```
 
-<v-click>
-
 <div class="text-red-500 mt-4">
 ❌ 문제점: 모든 단어를 동등하게 취급
 </div>
-
-</v-click>
 
 ::right::
 
@@ -130,12 +112,12 @@ class: text-center
 중요한 단어에 가중치를 부여하자!
 
 ---
-layout: two-cols-header
+layout: two_row_two_column
 ---
 
 # TF-IDF 수식
 
-::left::
+::r1-c1::
 
 ### TF (Term Frequency)
 문서 내 단어 빈도
@@ -144,7 +126,7 @@ $$
 TF = \frac{\text{단어 등장 횟수}}{\text{문서의 전체 단어 수}}
 $$
 
-<v-click>
+::r1-c2::
 
 ### IDF (Inverse Document Frequency)
 단어의 희귀성
@@ -153,11 +135,7 @@ $$
 IDF = \log\left(\frac{\text{전체 문서 수}}{\text{단어가 등장한 문서 수}}\right)
 $$
 
-</v-click>
-
-::right::
-
-<v-click>
+::r2-c1::
 
 ### TF-IDF
 두 값의 곱
@@ -166,16 +144,12 @@ $$
 \text{TF-IDF} = TF \times IDF
 $$
 
-</v-click>
-
-<v-click>
+::r2-c2::
 
 ### 💡 직관적 이해
 - **문서 내에서 자주** 등장 (TF ↑)
 - **다른 문서에는 잘 안** 나타남 (IDF ↑)
 - → **중요한 단어!**
-
-</v-click>
 
 ---
 layout: top_img-bottom_text
@@ -184,8 +158,6 @@ layout: top_img-bottom_text
 # TF-IDF 예시
 
 ::top::
-
-<div class="grid grid-cols-2 gap-4">
 
 ```mermaid {scale: 0.6}
 graph TD
@@ -205,17 +177,11 @@ graph TD
     style G fill:#fbb
 ```
 
-</div>
-
 ::bottom::
-
-<v-clicks>
 
 **예시 계산**:
 - "코스피" : 경제 뉴스에만 등장 → **높은 TF-IDF**
 - "그리고" : 모든 뉴스에 등장 → **낮은 TF-IDF**
-
-</v-clicks>
 
 ---
 layout: two_row_two_column
@@ -233,15 +199,9 @@ layout: two_row_two_column
 "경제의"
 ```
 
-<v-click>
-
 → Word-level에서는 **모두 다른 단어**
 
-</v-click>
-
 ::r1-c2::
-
-<v-click>
 
 ### 해결책 : Character n-gram
 
@@ -256,18 +216,12 @@ layout: two_row_two_column
 ]
 ```
 
-</v-click>
-
 ::r2-c1::
-
-<v-clicks>
 
 ### ✅ 장점
 - 띄어쓰기 오류에 **강건**
 - 미등록 단어(OOV) 문제 **완화**
 - 형태소 분석기 **불필요**
-
-</v-clicks>
 
 ::r2-c2::
 
@@ -287,8 +241,6 @@ layout: top_img-bottom_text
 
 ::top::
 
-<div class="flex justify-center">
-
 ```mermaid
 graph LR
     A["TF-IDF 벡터<br/>[0.8, 0.3, ...]"] --> B["선형 결합<br/>w₁×x₁ + w₂×x₂ + ..."]
@@ -301,26 +253,22 @@ graph LR
     style E fill:#bfb
 ```
 
-</div>
-
 ::bottom::
-
-<v-clicks>
 
 **Multi-class (7개 토픽)**:
 - 각 토픽마다 **별도의 가중치**
 - **Softmax** 함수로 확률 변환
 - **가장 높은** 확률의 토픽 선택
 
-</v-clicks>
-
+---
+layout: top_img-bottom_text
 ---
 
 # Regularization: C 파라미터
 
-<div class="text-center mt-10">
+::top::
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.6}
 graph TD
     A["C 값"] --> B{크기}
     B -->|"작음: C=0.1"| C["강한 규제"]
@@ -335,8 +283,6 @@ graph TD
     style F fill:#fbb
     style G fill:#bfb
 ```
-
-</div>
 
 ---
 
