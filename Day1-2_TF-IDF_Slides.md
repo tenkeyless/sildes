@@ -524,12 +524,14 @@ layout: default
 5. **결합** : 최적 조합 찾기 → F1 = 0.84
 
 ---
-layout: two-cols
+layout: top_img-bottom_text
 ---
 
 # 베이스라인의 중요성
 
-```mermaid {scale: 0.4}
+::top::
+
+```mermaid
 graph LR
     A["간단한 모델<br/>TF-IDF"] --> B["성능: 0.80"]
     B --> C{충분?}
@@ -542,32 +544,23 @@ graph LR
     style G fill:#ffd
 ```
 
-::right::
-
-<v-clicks>
+::bottom::
 
 ### 베이스라인의 역할
 
-1. **빠른 검증**
-   - 문제 해결 가능성 확인
+1. **빠른 검증** : 문제 해결 가능성 확인
+2. **비교 기준** : BERT 성능 측정
+3. **디버깅 도구** : 데이터 문제 조기 발견
+4. **실용성** : 때로는 충분!
 
-2. **비교 기준**
-   - BERT 성능 측정
-
-3. **디버깅 도구**
-   - 데이터 문제 조기 발견
-
-4. **실용성**
-   - 때로는 충분!
-
-</v-clicks>
-
+---
+layout: default
 ---
 
 # TF-IDF vs BERT 비교
 
 | 특성 | TF-IDF | BERT |
-|------|--------|------|
+|:------:|:--------:|:------:|
 | 학습 시간 | ~1분 ⚡ | ~10분 🐢 |
 | 추론 속도 | 매우 빠름 ⚡⚡ | 느림 🐢 |
 | GPU 필요 | ❌ | ✅ |
@@ -575,52 +568,50 @@ graph LR
 | 해석 가능성 | 높음 👍 | 낮음 👎 |
 | 메모리 | 적음 💾 | 많음 💾💾💾 |
 
-<v-click>
-
-<div class="mt-8 p-4 bg-yellow-100 rounded">
+<div class="mt-2 p-2 bg-yellow-100 rounded">
 
 💡 **TF-IDF를 쓸 때**: 실시간 처리, 리소스 제약, 간단한 분류
 
 </div>
 
-</v-click>
-
+---
+layout: default
 ---
 
 # 실습 포인트
 
-<v-clicks>
-
 ### 1. TF-IDF 변환 후 확인
+
 ```python
 print(f"Feature 개수: {X_train_tfidf.shape[1]:,}")
 # → 5,000개의 feature가 생성됨
 ```
 
+<div class="mt-6" />
+
 ### 2. 모델 학습 후 비교
+
 ```python
 print(f"Train F1: {train_f1:.4f}")
 print(f"Val F1: {val_f1:.4f}")
 # → 차이가 크면 Overfitting 의심!
 ```
 
+<div class="mt-6" />
+
 ### 3. Confusion Matrix 해석
 - 어떤 토픽끼리 혼동?
 - 왜 그럴까? (단어 유사성? 주제 중복?)
 
-</v-clicks>
-
+---
+layout: two-cols-header
 ---
 
 # 실험 결과 분석 예시
 
-<div class="grid grid-cols-2 gap-4">
-
-<div>
+::left::
 
 ### Dagshub에서 확인할 것
-
-<v-clicks>
 
 1. **max_features** ↑ → F1 ↑ (일정 수준까지)
 
@@ -628,13 +619,7 @@ print(f"Val F1: {val_f1:.4f}")
 
 3. **bigram 추가** → 약간의 성능 향상
 
-</v-clicks>
-
-</div>
-
-<div>
-
-<v-click>
+::right::
 
 ### 예상 결과
 
@@ -647,12 +632,6 @@ C=10.0:          F1 = 0.815
 bigram:          F1 = 0.825 ⭐⭐
 ```
 
-</v-click>
-
-</div>
-
-</div>
-
 ---
 layout: center
 class: text-center
@@ -662,8 +641,6 @@ class: text-center
 
 <div class="text-left max-w-2xl mx-auto">
 
-<v-clicks>
-
 - [ ] TF-IDF가 텍스트를 숫자로 변환하는 원리
 - [ ] Character n-gram이 한국어에 적합한 이유
 - [ ] Logistic Regression의 작동 방식
@@ -671,8 +648,6 @@ class: text-center
 - [ ] Regularization (C 파라미터)의 역할
 - [ ] MLflow로 실험을 기록하는 이유
 - [ ] 베이스라인 모델의 중요성
-
-</v-clicks>
 
 </div>
 
@@ -685,22 +660,8 @@ class: text-center
 
 ### Day 1-2 베이스라인 노트북
 
-<div class="mt-8">
+<div class="mt-8"/>
 
 **목표**: TF-IDF + Logistic Regression으로 **F1 ≥ 0.80** 달성
 
-</div>
-
-<div class="mt-8">
-
 **다음**: Day 1-3에서 BERT로 **F1 ≥ 0.90** 도전!
-
-</div>
-
----
-layout: end
----
-
-# 감사합니다! 🎉
-
-질문이 있으신가요?
