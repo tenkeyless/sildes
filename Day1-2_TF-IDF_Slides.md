@@ -486,10 +486,14 @@ with mlflow.start_run(run_name="exp1-maxfeat5000-C1.0"):
 - **비교 용이** (UI 제공)
 
 ---
+layout: img_caption
+---
 
 # 하이퍼파라미터 탐색 전략
 
-```mermaid {scale: 0.7}
+::img-fit-width::
+
+```mermaid {scale: 1.0}
 graph TD
     A[Baseline<br/>max_feat=5000, C=1.0] --> B[F1 = 0.80]
     B --> C[실험 1: max_features]
@@ -502,23 +506,22 @@ graph TD
 ```
 
 ---
+layout: default
+---
 
 # 실험 전략: 체계적 접근
 
-<v-clicks>
-
 ### 💡 핵심 원칙
+
 **한 번에 하나씩** 변경!
 
 ### 📋 실험 순서
 
-1. **Baseline**: 기본 설정 (max_feat=5000, C=1.0) → F1 = 0.80
-2. **실험 1**: max_features만 변경 (3000, 10000)
-3. **실험 2**: C 값만 변경 (0.1, 10.0)
-4. **실험 3**: n-gram 변경 ((1,2), (2,3))
-5. **결합**: 최적 조합 찾기 → F1 = 0.84
-
-</v-clicks>
+1. **Baseline** : 기본 설정 (max_feat=5000, C=1.0) → F1 = 0.80
+2. **실험 1** : max_features만 변경 (3000, 10000)
+3. **실험 2** : C 값만 변경 (0.1, 10.0)
+4. **실험 3** : n-gram 변경 ((1,2), (2,3))
+5. **결합** : 최적 조합 찾기 → F1 = 0.84
 
 ---
 layout: two-cols
