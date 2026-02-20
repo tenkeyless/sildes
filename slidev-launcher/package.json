@@ -1,0 +1,13 @@
+{
+  "name": "slidev-launcher",
+  "version": "1.0.0",
+  "description": "웹 UI로 슬라이드 파일을 선택해 Docker Slidev 실행",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}

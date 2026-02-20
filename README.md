@@ -16,7 +16,26 @@ docker build -t my-slidev:m1 .
 
 ## 슬라이드 실행
 
-프로젝트 루트에서 다음 명령으로 슬라이드를 띄웁니다. **슬라이드 파일명**만 바꿔서 사용하면 됩니다.
+### 방법 1: 웹 런처 사용 (권장)
+
+브라우저에서 슬라이드 파일 목록을 보고, 클릭 한 번으로 해당 파일을 Docker로 띄울 수 있습니다. **메인 폴더(slides/)에서** 실행합니다.
+
+```bash
+npm run launcher
+```
+
+브라우저에서 **http://localhost:3040** 을 열고, 원하는 슬라이드 파일을 클릭하면 Slidev가 실행되며 **http://localhost:3030** 이 새 탭에서 열립니다. (런처 서버는 3040, Slidev는 3030 포트 사용)
+
+### 방법 2: 스크립트 사용 (선택)
+
+웹 런처 대신 터미널에서 파일명만 넘겨서 띄우고 싶을 때 사용합니다. 한 번만 실행 권한을 부여합니다.
+
+```bash
+chmod +x run-slidev.sh
+./run-slidev.sh Day1-3_BERT_Slides.md
+```
+
+### 방법 3: docker run 직접 사용
 
 ```bash
 docker run --name slidev-m1 --rm -it \
@@ -24,24 +43,6 @@ docker run --name slidev-m1 --rm -it \
     -p 3030:3030 \
     my-slidev:m1 slidev <슬라이드파일.md> --remote
 ```
-
-### 예시
-
-- **BERT 슬라이드**
-  ```bash
-  docker run --name slidev-m1 --rm -it \
-      -v "$(pwd):/slidev" \
-      -p 3030:3030 \
-      my-slidev:m1 slidev Day1-3_BERT_Slides.md --remote
-  ```
-
-- **TF-IDF 슬라이드**
-  ```bash
-  docker run --name slidev-m1 --rm -it \
-      -v "$(pwd):/slidev" \
-      -p 3030:3030 \
-      my-slidev:m1 slidev Day1-2_TF-IDF_Slides.md --remote
-  ```
 
 실행 후 브라우저에서 **http://localhost:3030** 으로 접속합니다.
 
@@ -51,6 +52,7 @@ docker run --name slidev-m1 --rm -it \
 |--------|------|
 | `Day1-2_TF-IDF_Slides.md` | TF-IDF 슬라이드 |
 | `Day1-3_BERT_Slides.md` | BERT 슬라이드 |
+| `Day2-1_Seq2Seq_Slides.md` | Seq2Seq 슬라이드 |
 
 ## 옵션 설명
 
