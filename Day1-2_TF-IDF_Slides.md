@@ -1,7 +1,7 @@
 ---
 theme: ./theme-cnu
 background: https://cover.sli.dev
-title: 'Day 1-2: TF-IDF와 텍스트 분류'
+title: "Day 1-2: TF-IDF와 텍스트 분류"
 info: |
   ## 딥러닝 부트캠프 Day 1-2
   머신러닝 기반 텍스트 분류의 기본 원리
@@ -50,7 +50,7 @@ layout: top_img-bottom_text
 
 <div class="flex justify-center">
 
-```mermaid {scale: 0.7}
+```mermaid
 graph LR
     A["텍스트:<br/>코스피 상승"] --> B[TF-IDF]
     B --> C["벡터:<br/>[0.8, 0.3, ...]"]
@@ -218,14 +218,14 @@ graph TD
 </v-clicks>
 
 ---
+layout: two_row_two_column
+---
 
-# Character n-gram: 한국어의 비밀 무기
+# Character n-gram : 한국어의 비밀 무기
 
-<div class="grid grid-cols-2 gap-4">
+::r1-c1::
 
-<div>
-
-### 문제: 한국어는 교착어
+### 문제 : 한국어는 교착어
 
 ```
 "경제가"
@@ -239,13 +239,11 @@ graph TD
 
 </v-click>
 
-</div>
-
-<div>
+::r1-c2::
 
 <v-click>
 
-### 해결책: Character n-gram
+### 해결책 : Character n-gram
 
 ```python
 "코스피" → [
@@ -260,9 +258,7 @@ graph TD
 
 </v-click>
 
-</div>
-
-</div>
+::r2-c1::
 
 <v-clicks>
 
@@ -273,6 +269,8 @@ graph TD
 
 </v-clicks>
 
+::r2-c2::
+
 ---
 layout: center
 class: text-center
@@ -282,10 +280,16 @@ class: text-center
 ## 확률 기반 분류 모델
 
 ---
+layout: top_img-bottom_text
+---
 
 # Logistic Regression 원리
 
-```mermaid {scale: 0.8}
+::top::
+
+<div class="flex justify-center">
+
+```mermaid
 graph LR
     A["TF-IDF 벡터<br/>[0.8, 0.3, ...]"] --> B["선형 결합<br/>w₁×x₁ + w₂×x₂ + ..."]
     B --> C["Sigmoid 함수<br/>1/(1+e^-z)"]
@@ -296,6 +300,10 @@ graph LR
     style C fill:#ffd
     style E fill:#bfb
 ```
+
+</div>
+
+::bottom::
 
 <v-clicks>
 
