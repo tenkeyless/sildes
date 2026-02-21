@@ -12,6 +12,10 @@
   letter-spacing: -0.02em;
 }
 
+.slidev-layout h1 { margin-top: 0rem; }
+.slidev-layout h2 { margin-top: 1.5rem; }
+.slidev-layout h3 { margin-top: 1rem; }
+
 /* 부제: 제목 바로 아래 작은 문장 (h1 + p) */
 .slidev-layout h1 + p {
   font-family: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
@@ -58,6 +62,10 @@
 .slidev-layout p,
 .slidev-layout li {
   font-family: 'Iropke Batang', 'Pretendard', serif;
+}
+
+.slidev-layout p {
+  line-height: 2rem;
 }
 
 /* 수식(KaTeX) 안 한글·텍스트: 이롭게바탕체 (\text{...} 등) */
