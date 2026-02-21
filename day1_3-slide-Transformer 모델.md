@@ -31,19 +31,27 @@ layout: default
 layout: default
 ---
 
+# 📋 진행 순서
+
+각 주제마다 **개념**을 본 뒤, 노트북에서 해당 구간을 **실습**합니다.
+
+---
+layout: default
+---
+
 # 🔧 노트북: 0. 환경 재설정
 
 ### 이 구간에서 할 일
 - Transformers·datasets 설치, 라이브러리 임포트
 - Dagshub & MLflow 재연동 (**repo_owner**, **repo_name** 작성)
 
-노트북 **0. 환경 재설정**과 **1. 데이터 준비**까지 진행한 뒤, 다음 슬라이드로 넘어갑니다.
+이어서 **노트북 1. 데이터 준비**를 마친 뒤, 다음 이론 슬라이드로 넘어갑니다.
 
 ---
 layout: default
 ---
 
-# 📂 노트북: 1. 데이터 준비
+# 🔧 노트북: 1. 데이터 준비
 
 ### 이 구간에서 할 일
 
@@ -54,20 +62,13 @@ layout: center
 class: text-center
 ---
 
-# 2. BERT 모델 및 Tokenizer (이론)
-
----
-layout: center
-class: text-center
----
-
-# 2-1. TF-IDF의 한계와 딥러닝의 접근
+# TF-IDF의 한계와 딥러닝의 접근
 
 ---
 layout: default
 ---
 
-# 2-1. TF-IDF가 못하는 것
+# TF-IDF가 못하는 것
 
 ### 예시
 - "배가 고프다" → TF-IDF: "배" = 숫자 하나  
@@ -84,7 +85,7 @@ layout: default
 layout: img_caption
 ---
 
-# 2-1. TF-IDF의 한계 (다이어그램)
+# TF-IDF의 한계 (다이어그램)
 
 ::img-fit-width::
 
@@ -104,7 +105,7 @@ graph TD
 layout: default
 ---
 
-# 2-1. 딥러닝의 접근: 의미 벡터
+# 딥러닝의 접근: 의미 벡터
 
 ### TF-IDF vs BERT
 - **TF-IDF**: 단어 = 숫자 하나 → "경제" → 0.82  
@@ -117,13 +118,13 @@ layout: center
 class: text-center
 ---
 
-# 2-2. Transformer 아키텍처
+# Transformer 아키텍처
 
 ---
 layout: default
 ---
 
-# 2-2. RNN/LSTM의 문제점
+# RNN/LSTM의 문제점
 
 - **순차적 처리** → 병렬화 불가 → 느림  
 - **긴 문장** → 앞부분 정보 손실 (Vanishing Gradient)
@@ -145,7 +146,7 @@ graph LR
 layout: default
 ---
 
-# 2-2. Attention 메커니즘
+# Attention 메커니즘
 
 ### 핵심 아이디어
 모든 단어를 **동시에** 보면서, 현재 단어와 **관련 있는 단어에 집중**하자!
@@ -156,7 +157,7 @@ layout: default
 layout: img_caption
 ---
 
-# 2-2. Attention 예시
+# Attention 예시
 
 ::img-fit-width::
 
@@ -178,7 +179,7 @@ graph TD
 layout: img_caption
 ---
 
-# 2-2. Multi-Head Attention
+# Multi-Head Attention
 
 ::img-fit-width::
 
@@ -199,7 +200,7 @@ graph TB
 
 ::caption::
 
-여러 **Head**가 서로 다른 관점에서 동시에 Attention을 계산합니다. 
+여러 **Head**가 서로 다른 관점에서 동시에 Attention을 계산합니다.  
 (문법·의미·주제 등) → **풍부한 문맥 표현** 생성
 
 ---
@@ -207,13 +208,13 @@ layout: center
 class: text-center
 ---
 
-# 2-3. BERT: 사전학습 + Fine-tuning
+# BERT: 사전학습 + Fine-tuning
 
 ---
 layout: default
 ---
 
-# 2-3. 사전학습 (Pre-training)
+# 사전학습 (Pre-training)
 
 대량의 텍스트로 두 가지 태스크를 학습합니다.
 
@@ -229,7 +230,7 @@ layout: default
 layout: top_img-bottom_text
 ---
 
-# 2-3. Fine-tuning (미세조정)
+# Fine-tuning (미세조정)
 
 ::top::
 
@@ -248,24 +249,35 @@ graph LR
 **비유**: 사전학습 = 대학 교육, Fine-tuning = 직무 교육
 
 ---
-layout: default
+layout: top_img-bottom_text
 ---
 
-# 2-3. 한국어 BERT 모델 선택
+# 한국어 BERT 모델 선택
 
-| **모델** | **특징** | **추천 상황** |
-|:---|:---|:---|
-| `klue/bert-base` | 범용, 안정적 | 뉴스, 공식 문서 |
-| `klue/roberta-base` | BERT 개선, 성능 ↑ | 성능 우선 |
-| `beomi/kcbert-base` | 댓글/구어체 특화 | SNS, 댓글 |
+::top::
 
-**이번 실습**: 뉴스 헤드라인 → `klue/bert-base`부터 시작
+```mermaid {scale: 0.6}
+graph TD
+    A{어떤 데이터?} --> B[뉴스, 공식 문서]
+    A --> C[댓글, SNS, 구어]
+    B --> D[klue/bert-base 또는 klue/roberta-base]
+    C --> E[beomi/kcbert-base]
+    F{성능 우선?} --> G[klue/roberta-base]
+    F --> H[안정성 우선?]
+    H --> I[klue/bert-base]
+```
+
+::bottom::
+
+- `klue/bert-base` : 범용, 안정적 / 뉴스, 공식 문서
+- `klue/roberta-base` : BERT 개선, 성능 ↑ / 성능 우선
+- `beomi/kcbert-base` : 댓글/구어체 특화 / SNS, 댓글
 
 ---
 layout: top_img-bottom_text
 ---
 
-# 2-3. 커스텀 vs 사전학습 모델
+# 커스텀 vs 사전학습 모델
 
 ::top::
 
@@ -286,7 +298,7 @@ graph LR
 layout: top_img-bottom_text
 ---
 
-# 2-4. Tokenization
+# Tokenization
 
 BERT는 텍스트를 토큰으로 분해합니다.
 
@@ -311,7 +323,7 @@ graph LR
 layout: top_img-bottom_text
 ---
 
-# 2-4. BERT 출력 → 분류
+# BERT 출력 → 분류
 
 ::top::
 
@@ -341,15 +353,20 @@ layout: default
 - **model**: `AutoModelForSequenceClassification.from_pretrained(..., num_labels=7)`
 - 토큰화 함수 정의 및 `train_tokenized`, `val_tokenized` 생성
 
-노트북 **2. BERT 모델 및 Tokenizer 로드**를 진행한 뒤, 다음 슬라이드로 넘어갑니다.
+---
+layout: center
+class: text-center
+---
+
+# Fine-tuning 설정
 
 ---
 layout: default
 ---
 
-# 3. BERT Fine-tuning
+# BERT Fine-tuning이란
 
-### Fine-tuning이란
+### 개념
 우리 태스크(**뉴스 7-class 분류**)에 맞게, 이미 한국어를 이해하는 BERT를 **추가로 학습**하는 단계입니다.
 
 ### Hugging Face에서의 역할
@@ -357,22 +374,10 @@ layout: default
 - **Trainer**: 학습 루프(에포크 반복, 배치 단위 학습, 검증, 체크포인트 저장)를 대신 처리
 
 ---
-layout: default
----
-
-# 3.1 모델 로드 & Fine-tuning 설정
-
-### 실습 노트북에서 할 일
-- **TrainingArguments**: num_train_epochs, batch_size, learning_rate, warmup_steps, weight_decay 등  
-- **compute_metrics**: accuracy_score, f1_score로 acc·f1_macro 계산 후 반환  
-- **Trainer** 생성 (model, args, train_dataset, eval_dataset, compute_metrics)  
-- `trainer.train()` 실행
-
----
 layout: top_img-bottom_text
 ---
 
-# 3.2.1 Learning Rate
+# Learning Rate
 
 한 번에 얼마나 많이 가중치를 업데이트할지 결정합니다.
 
@@ -394,7 +399,7 @@ graph LR
 layout: img_caption
 ---
 
-# 3.2.2 Epochs
+# Epochs
 
 전체 데이터를 몇 번 반복 학습할지 결정합니다.
 
@@ -424,7 +429,7 @@ graph TD
 layout: default
 ---
 
-# 3.2.3 Warmup Steps
+# Warmup Steps
 
 학습 초반에 LR을 작은 값부터 점진적으로 증가시킵니다.  
 처음부터 큰 LR을 쓰면 **사전학습된 가중치가 무너질 수** 있기 때문입니다.
@@ -442,25 +447,13 @@ graph LR
 layout: default
 ---
 
-# 🔥 실습에서 함께 작성해볼 부분 (3번 구간)
+# 🏋️ 노트북: 3. BERT Fine-tuning
 
+### 🔥 함께 작성해볼 부분
 - **TrainingArguments**: num_train_epochs, per_device_train_batch_size, per_device_eval_batch_size, learning_rate, warmup_steps, weight_decay  
 - **compute_metrics**: accuracy_score, f1_score → `{'accuracy', 'f1'}` 반환  
 - **Trainer** 생성: model, args, train_dataset, eval_dataset, compute_metrics  
-
-(평가·MLflow 작성 구간은 4, 5번에서 진행)
-
----
-layout: default
----
-
-# 🏋️ 노트북: 3. BERT Fine-tuning
-
-### 이 구간에서 할 일
-- TrainingArguments, compute_metrics, Trainer 작성  
 - `trainer.train()` 실행 (GPU에 따라 5~15분)
-
-노트북 **3. BERT Fine-tuning**을 마치면 → 다음 슬라이드 안내 후 **4. 모델 평가**를 진행합니다.
 
 ---
 layout: default
@@ -473,13 +466,11 @@ layout: default
 - **predictions**, **y_pred**, **y_true**: `trainer.predict(val_tokenized)` 후 argmax·label  
 - Classification Report, Confusion Matrix 확인
 
-노트북 **4. 모델 평가**를 진행한 뒤, **5. MLflow** 슬라이드로 넘어갑니다.
-
 ---
 layout: default
 ---
 
-# 5. MLflow 실험 기록
+# MLflow 실험 기록
 
 ### 🔥 이 부분은 수정이 필요합니다
 실습 노트북에서 **run_name**을 비워두었습니다.  
@@ -503,13 +494,11 @@ layout: default
 - BERT 실험 파라미터·메트릭 로깅  
 - (선택) 6. 성능 개선 실험 (LR, epochs, 다른 모델)
 
-노트북 **5. MLflow 실험 로깅**까지 마치면 → 마지막 정리 슬라이드로 넘어갑니다.
-
 ---
 layout: default
 ---
 
-# 6. TF-IDF vs BERT 비교
+# TF-IDF vs BERT 비교
 
 | **항목** | **TF-IDF + LogReg** | **BERT Fine-tuning** |
 |:---|:---|:---|
@@ -523,7 +512,7 @@ layout: default
 layout: img_caption
 ---
 
-# 6. 언제 어떤 모델을?
+# 언제 어떤 모델을?
 
 ::img-fit-width::
 
