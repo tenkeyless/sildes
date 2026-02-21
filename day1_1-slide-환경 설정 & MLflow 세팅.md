@@ -28,81 +28,36 @@ layout: default
 - 📁 **Dacon 데이터**를 다운로드하고 Colab에 로드한다
 
 ---
-layout: center
-class: text-center
----
-
-# 1. Google Colab 환경 확인
-
-GPU 할당 확인 & Drive 연동 (선택)
-
----
-layout: two-cols-header
----
-
-# 1.1 GPU 확인
-
-### 확인 방법
-가장 먼저 GPU가 제대로 할당되어 있는지 확인합니다.
-
-::left::
-
-**실행할 코드**
-
-```python
-import torch
-
-if torch.cuda.is_available():
-    print(f"GPU 이름: {torch.cuda.get_device_name(0)}")
-    print(f"GPU 메모리: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
-else:
-    print("❌ GPU 사용 불가")
-```
-
-::right::
-
-**GPU가 없다면**
-
-**런타임 > 런타임 유형 변경 > GPU(T4)** 선택 후 재연결
-
-<div class="mt-4 p-4 bg-yellow-100 rounded">
-
-실습 노트북에서 
-
-이어서 진행하세요.
-
-</div>
-
----
 layout: default
 ---
 
-# 1.2 Google Drive 연동 (선택사항)
+# 🔧 노트북: 1️⃣ Google Colab 환경 확인
+
+### 이 구간에서 할 일
+- GPU가 제대로 할당되어 있는지 확인 (`torch.cuda.is_available()`)
+- GPU가 없다면: **런타임 > 런타임 유형 변경 > GPU(T4)** 선택 후 재연결
 
 ### 참고
-- 데이터를 Drive에 보관하면 런타임이 초기화되어도 재다운로드가 필요 없습니다.
-- 이번 실습에서는 **직접 업로드 방식**을 기본으로 합니다.
+Google Drive 연동은 선택사항입니다. 이번 실습에서는 **직접 업로드 방식**을 기본으로 합니다.
 
 ---
 layout: center
 class: text-center
 ---
 
-# 2. Dagshub & MLflow 설정
-
-실험을 체계적으로 관리하는 플랫폼
+# Dagshub & MLflow 설정
 
 ---
 layout: default
 ---
 
-# 2.1 Dagshub란?
+# Dagshub란?
 
-### 요약
-ML 실험을 체계적으로 관리할 수 있는 플랫폼입니다.
+### ML 실험을 체계적으로 관리할 수 있는 플랫폼
 
 - MLflow UI를 제공하여 실험 결과를 **시각적으로 비교**
 - **GitHub 계정**으로 간편하게 가입 가능
+- 실험 기록이 **Dagshub 서버에 저장** → 런타임이 끊겨도 유지
 
 ---
 layout: default
@@ -120,6 +75,11 @@ layout: default
 
 MLflow로 모든 실험의 **하이퍼파라미터와 결과**를 자동으로 기록하면 이런 혼란을 방지할 수 있습니다.
 
+### 체계적 실험 관리의 효과
+- **재현성**: 어떤 설정으로 좋은 결과를 냈는지 정확히 알 수 있음
+- **비교**: 수십, 수백 개의 실험을 체계적으로 비교 가능
+- **협업**: 팀원들과 실험 결과를 쉽게 공유 가능
+
 ---
 layout: top_img-bottom_text
 ---
@@ -133,7 +93,7 @@ graph LR
     A[Colab 학습 코드] -->|log_param / log_metric| B[MLflow]
     B -->|remote tracking| C[Dagshub 서버]
     C --> D[실험 UI<br/>비교/시각화]
-    
+
     style B fill:#bbf
     style C fill:#bfb
 ```
@@ -146,7 +106,7 @@ Colab에서 로깅 → Dagshub 서버에 저장 → UI에서 비교
 layout: default
 ---
 
-# 2.2 Dagshub 계정 생성
+# Dagshub 계정 생성
 
 ### 절차
 1. [https://dagshub.com](https://dagshub.com/) 접속
@@ -154,157 +114,116 @@ layout: default
 3. `Create +` > `New Repository` > `Create blank repository` 클릭
 4. **Repository name**: `deeplearning-bootcamp` (원하는 이름 가능)
 5. **Visibility**: Public 권장
-6. `Create Repository` 클릭 후 **repo_owner**(username)와 **repo_name** 기억해두기
+6. `Create Repository` 클릭
+7. **repo_owner**(username)와 **repo_name** 기억해두기
 
 ---
-layout: two-cols-header
+layout: default
 ---
 
-# 2.3 라이브러리 설치 및 연동
+# 🔧 노트북: 2️⃣ Dagshub & MLflow 설정
 
-::left::
-
-**1. 설치**
-
-```python
-%pip install -q dagshub 'mlflow>=2,<3'
-```
-
-**2. 연동 (🔥 본인 정보로 수정!)**
+### 🔥 함께 작성해볼 부분
+- **repo_owner**: 본인의 Dagshub username
+- **repo_name**: 생성한 repository 이름
 
 ```python
-import dagshub
-
-repo_owner = 'your_username'   # Dagshub username
-repo_name  = 'deeplearning-bootcamp'
-
+repo_owner = # 🔥 직접 작성이 필요합니다.
+repo_name  = # 🔥 직접 작성이 필요합니다.
 dagshub.init(repo_owner=repo_owner, repo_name=repo_name, mlflow=True)
 ```
-
-::right::
-
-**실습 노트북**에서 `repo_owner`, `repo_name`을 채운 뒤 실행하세요.
-
-<div class="mt-4 p-4 bg-amber-100 rounded">
-
-🔥 이 부분은 수정이 필요합니다.
-
-</div>
 
 ---
 layout: center
 class: text-center
 ---
 
-# 3. MLflow 첫 실험 로깅
-
-기본 로깅 & 여러 실험 시뮬레이션
+# MLflow 첫 실험 로깅
 
 ---
 layout: default
 ---
 
-# 3.1 기본 로깅
+# MLflow 기본 로깅 구조
 
-### 🔥 이 부분을 같이 테스트해봅시다
-실습 노트북에서 `run_name`과 `log_param`, `log_metric`에 넣을 **키/값을 비워두었습니다.**
+MLflow 실험은 세 가지 핵심 요소로 구성됩니다.
 
-원하는 run 이름과 로깅할 파라미터·메트릭을 입력한 뒤 실행해보고, 
+### `mlflow.start_run(run_name=...)`
+실험 하나를 시작합니다. `run_name`으로 나중에 구분할 이름을 붙입니다.
 
-Dagshub UI에서 이름과 값이 잘 반영되는지 확인해보세요.
+### `mlflow.log_param(key, value)`
+학습에 사용한 **설정값**을 기록합니다. (예: learning_rate, batch_size)
+
+### `mlflow.log_metric(key, value)`
+학습 결과 **수치**를 기록합니다. (예: accuracy, f1_score)
+
+---
+layout: default
+---
+
+# 🔧 노트북: 3️⃣ MLflow 첫 실험 로깅 테스트
+
+### 🔥 함께 작성해볼 부분
+
+**기본 로깅**: run_name, log_param, log_metric에 원하는 이름·키·값을 채워보세요.
 
 ```python
-with mlflow.start_run(run_name=""):  # 원하는 run 이름 입력
-    mlflow.log_param("", )   # (키, 값) 입력
-    mlflow.log_metric("", ) # (키, 값) 입력
+with mlflow.start_run(run_name=""):  # 🔥 직접 작성이 필요합니다.
+    mlflow.log_param("", )   # 🔥 직접 작성이 필요합니다.
+    mlflow.log_metric("", )  # 🔥 직접 작성이 필요합니다.
 ```
 
----
-layout: default
----
-
-# 3.2 여러 실험 시뮬레이션
-
-### 🔥 이 부분을 같이 테스트해봅시다
-여러 run을 **랜덤** 하이퍼파라미터로 기록하는 흐름은 그대로 두고, 
-
-`run_name` 패턴과 `log_param`, `log_metric` 부분만 비워두었습니다.
-
-원하는 대로 채운 뒤 실행해보고, Dagshub에서 여러 실험을 비교해보세요.
-
-- `learning_rate`, `batch_size` 등을 랜덤 선택 → 그대로 유지
-- **run 이름 패턴**과 **로깅할 파라미터/메트릭** → 노트북에서 직접 채우기
-- 5개 가상 실험 실행 후 Dagshub UI에서 확인
+**여러 실험 시뮬레이션**: learning_rate, batch_size를 랜덤으로 선택하는 5개 실험을 실행합니다.
 
 ---
 layout: default
 ---
 
-# 3.3 Dagshub UI에서 결과 확인
+# Dagshub UI에서 결과 확인
 
 ### 확인 절차
 1. Dagshub 프로젝트 페이지 이동
 2. 좌측 메뉴 **"Experiments"** 클릭
-3. 6개 실험 (test_connection + experiment_1~5) 확인
-4. 각 실험의 **Parameters**, **Metrics** 비교
+3. 기록한 실험 목록 확인 → 각 실험의 **Parameters**, **Metrics** 비교
 
-**핵심**: 여러 실험 체크박스 선택 → "Compare" → Parallel Coordinates로 최적 하이퍼파라미터 시각화
-
----
-layout: center
-class: text-center
----
-
-# 4. Dacon 데이터 다운로드
-
-대회 데이터 준비 & Colab 업로드
-
----
-layout: default
----
-
-# 4.1 Dacon 계정 및 데이터 다운로드
-
-### 절차
-1. [https://dacon.io](https://dacon.io/) 접속 후 회원가입
-2. 대회 페이지: [월간 데이콘 뉴스 토픽 분류](https://dacon.io/competitions/official/235747)
-3. **데이터 탭** > 아래 4개 파일 다운로드:
-   - `train_data.csv`, `test_data.csv`, `topic_dict.csv`, `sample_submission.csv`
-4. 4개 파일을 **ZIP으로 압축**
-
----
-layout: default
----
-
-# 4.2 Colab에 데이터 업로드
-
-### 실습 노트북에서
-
-- `files.upload()`로 ZIP 파일 선택
-- 지정 경로에 압축 해제 후 `train_data.csv`, `test_data.csv` 등 로드
-
----
-layout: default
----
-
-# 4.3 데이터 확인
-
-### 코드 예시
-```python
-import pandas as pd
-
-train_df = pd.read_csv(os.path.join(data_path, 'train_data.csv'))
-test_df  = pd.read_csv(os.path.join(data_path, 'test_data.csv'))
-
-print(f"Train: {len(train_df):,}개 / Test: {len(test_df):,}개")
-```
+### 핵심 기능
+여러 실험을 체크박스로 선택 → **"Compare"** → Parallel Coordinates로 최적 하이퍼파라미터 시각화
 
 ---
 layout: center
 class: text-center
 ---
 
-# 5. 정리
+# Dacon 데이터 다운로드
+
+---
+layout: default
+---
+
+# Dacon 데이터 소개
+
+### 대회: 월간 데이콘 뉴스 토픽 분류
+
+| 파일 | 내용 |
+|:---|:---|
+| `train_data.csv` | 학습용 뉴스 헤드라인 + 토픽 레이블 |
+| `test_data.csv` | 평가용 뉴스 헤드라인 |
+| `topic_dict.csv` | 7개 토픽 번호 ↔ 이름 매핑 |
+| `sample_submission.csv` | 제출 양식 |
+
+**7개 토픽**: 정치, 경제, 사회, 생활/문화, 세계, IT/과학, 스포츠
+
+---
+layout: default
+---
+
+# 🔧 노트북: 4️⃣ Dacon 데이터 다운로드
+
+### 이 구간에서 할 일
+1. [dacon.io](https://dacon.io/) > 뉴스 토픽 분류 대회 > **데이터 탭**에서 4개 파일 다운로드
+2. 4개 파일을 **ZIP으로 압축**
+3. 노트북에서 `files.upload()`로 업로드 → 자동 압축 해제
+4. `train_data.csv`, `test_data.csv` 로드 확인
 
 ---
 layout: two-cols-header
@@ -314,19 +233,18 @@ layout: two-cols-header
 
 ::left::
 
-| **내용**     | **도구**   |
-| ------------ | ---------- |
-| GPU 환경 확인 | PyTorch    |
-| 실험 기록 플랫폼 | Dagshub   |
-| 실험 추적 라이브러리 | MLflow  |
-| 데이터 로드   | Pandas     |
+| **내용** | **도구** |
+|:---|:---|
+| GPU 환경 확인 | PyTorch |
+| 실험 기록 플랫폼 | Dagshub |
+| 실험 추적 라이브러리 | MLflow |
+| 데이터 로드 | Pandas |
 
 ::right::
 
-### 체계적 실험 관리가 중요한 이유
-- **재현성**: 어떤 설정으로 좋은 결과를 냈는지 정확히 알 수 있음
-- **비교**: 수십, 수백 개의 실험을 체계적으로 비교 가능
-- **협업**: 팀원들과 실험 결과를 쉽게 공유 가능
+### 다음 시간
+- 오늘 구축한 환경 위에서 **뉴스 토픽 분류 베이스라인** 구현
+- TF-IDF + Logistic Regression으로 첫 번째 모델 학습
 
 ---
 layout: default
@@ -334,7 +252,6 @@ layout: default
 
 # ✅ 체크리스트
 
-### 확인 항목
 - [ ] GPU 사용 가능 확인 (T4 또는 다른 GPU)
 - [ ] Dagshub 계정 생성 및 Repository 생성
 - [ ] Colab에서 Dagshub MLflow 연동 성공
@@ -348,12 +265,14 @@ layout: default
 
 # 🔧 트러블슈팅
 
-### 자주 묻는 질문
-- **Q. GPU가 할당되지 않았어요**  
-  - → 런타임 > 런타임 유형 변경 > GPU(T4) 선택. Colab Pro 활성화 확인.
+### GPU가 할당되지 않았어요
+→ 런타임 > 런타임 유형 변경 > GPU(T4) 선택. Colab Pro 활성화 확인.
 
-- **Q. `dagshub.init()` 실행 시 에러**  
-  - → `repo_owner`, `repo_name` 대소문자 정확히 입력. Dagshub 프로필 URL에서 username 복사 권장.
+### `dagshub.init()` 실행 시 에러
+→ `repo_owner`, `repo_name` 대소문자를 정확히 입력. Dagshub 프로필 URL에서 username 복사 권장.
 
-- **Q. MLflow UI에 실험이 안 보여요**  
-  - → 10~30초 기다리거나 새로고침. 동기화에 시간이 걸릴 수 있음.
+### MLflow UI에 실험이 안 보여요
+→ 10~30초 기다리거나 새로고침. 동기화에 시간이 걸릴 수 있음.
+
+### 런타임이 끊어지면 기록이 사라지나요?
+→ MLflow 기록은 Dagshub 서버에 저장되므로 런타임이 끊겨도 유지됨.
