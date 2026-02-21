@@ -42,6 +42,7 @@ layout: two-cols-header
 
 # 1.1 GPU 확인
 
+### 확인 방법
 가장 먼저 GPU가 제대로 할당되어 있는지 확인합니다.
 
 ::left::
@@ -78,6 +79,7 @@ layout: default
 
 # 1.2 Google Drive 연동 (선택사항)
 
+### 참고
 - 데이터를 Drive에 보관하면 런타임이 초기화되어도 재다운로드가 필요 없습니다.
 - 이번 실습에서는 **직접 업로드 방식**을 기본으로 합니다.
 
@@ -96,6 +98,7 @@ layout: default
 
 # 2.1 Dagshub란?
 
+### 요약
 ML 실험을 체계적으로 관리할 수 있는 플랫폼입니다.
 
 - MLflow UI를 제공하여 실험 결과를 **시각적으로 비교**
@@ -107,7 +110,7 @@ layout: default
 
 # 왜 실험을 기록해야 할까?
 
-딥러닝 연구에서 흔히 겪는 문제:
+### 딥러닝 연구에서 흔히 겪는 문제
 
 ```
 실험 1: F1 = 0.82  → 어떤 설정이었지...?
@@ -145,6 +148,7 @@ layout: default
 
 # 2.2 Dagshub 계정 생성
 
+### 절차
 1. [https://dagshub.com](https://dagshub.com/) 접속
 2. **GitHub** 또는 **Google** 계정으로 가입/로그인
 3. `Create +` > `New Repository` > `Create blank repository` 클릭
@@ -202,8 +206,7 @@ layout: default
 
 # 3.1 기본 로깅
 
-**🔥 이 부분을 같이 테스트해봅시다.**
-
+### 🔥 이 부분을 같이 테스트해봅시다
 실습 노트북에서 `run_name`과 `log_param`, `log_metric`에 넣을 **키/값을 비워두었습니다.**
 
 원하는 run 이름과 로깅할 파라미터·메트릭을 입력한 뒤 실행해보고, 
@@ -222,8 +225,7 @@ layout: default
 
 # 3.2 여러 실험 시뮬레이션
 
-**🔥 이 부분을 같이 테스트해봅시다.**
-
+### 🔥 이 부분을 같이 테스트해봅시다
 여러 run을 **랜덤** 하이퍼파라미터로 기록하는 흐름은 그대로 두고, 
 
 `run_name` 패턴과 `log_param`, `log_metric` 부분만 비워두었습니다.
@@ -240,6 +242,7 @@ layout: default
 
 # 3.3 Dagshub UI에서 결과 확인
 
+### 확인 절차
 1. Dagshub 프로젝트 페이지 이동
 2. 좌측 메뉴 **"Experiments"** 클릭
 3. 6개 실험 (test_connection + experiment_1~5) 확인
@@ -262,6 +265,7 @@ layout: default
 
 # 4.1 Dacon 계정 및 데이터 다운로드
 
+### 절차
 1. [https://dacon.io](https://dacon.io/) 접속 후 회원가입
 2. 대회 페이지: [월간 데이콘 뉴스 토픽 분류](https://dacon.io/competitions/official/235747)
 3. **데이터 탭** > 아래 4개 파일 다운로드:
@@ -274,7 +278,7 @@ layout: default
 
 # 4.2 Colab에 데이터 업로드
 
-실습 노트북에서:
+### 실습 노트북에서
 
 - `files.upload()`로 ZIP 파일 선택
 - 지정 경로에 압축 해제 후 `train_data.csv`, `test_data.csv` 등 로드
@@ -285,6 +289,7 @@ layout: default
 
 # 4.3 데이터 확인
 
+### 코드 예시
 ```python
 import pandas as pd
 
@@ -318,8 +323,7 @@ layout: two-cols-header
 
 ::right::
 
-**체계적 실험 관리가 중요한 이유**
-
+### 체계적 실험 관리가 중요한 이유
 - **재현성**: 어떤 설정으로 좋은 결과를 냈는지 정확히 알 수 있음
 - **비교**: 수십, 수백 개의 실험을 체계적으로 비교 가능
 - **협업**: 팀원들과 실험 결과를 쉽게 공유 가능
@@ -330,6 +334,7 @@ layout: default
 
 # ✅ 체크리스트
 
+### 확인 항목
 - [ ] GPU 사용 가능 확인 (T4 또는 다른 GPU)
 - [ ] Dagshub 계정 생성 및 Repository 생성
 - [ ] Colab에서 Dagshub MLflow 연동 성공
@@ -343,6 +348,7 @@ layout: default
 
 # 🔧 트러블슈팅
 
+### 자주 묻는 질문
 - **Q. GPU가 할당되지 않았어요**  
   - → 런타임 > 런타임 유형 변경 > GPU(T4) 선택. Colab Pro 활성화 확인.
 
