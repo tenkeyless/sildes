@@ -76,6 +76,7 @@ docker run --name slidev-m1 --rm -it \
 | `day3_5-slide-고급 기법 & 최종 최적화.md` | Day 3-5 슬라이드 (선택) |
 | `day4_1-slide-COVID-19 흉부 X-ray EDA.md` | Day 4-1 슬라이드 |
 | `day4_2-slide-Transfer Learning with ResNet50.md` | Day 4-2 슬라이드 |
+| `day4_3-slide-Class Imbalance 처리.md` | Day 4-3 슬라이드 |
 
 ---
 
@@ -353,7 +354,7 @@ docker run --name slidev-m1 --rm -it \
 
 ### Day 4-2: Transfer Learning with ResNet50
 
-> 슬라이드: `day4_2-slide-Transfer Learning with ResNet50.md`  
+> 슬라이드: `day4_2-slide-Transfer Learning with ResNet50.md`
 > 노트북: `lectures/day4/start/day4_2-transfer_learning-start.ipynb`
 
 | 단계 | 슬라이드 | 노트북 |
@@ -369,6 +370,31 @@ docker run --name slidev-m1 --rm -it \
 | ⑨ | — | 5. Phase 2 Fine-tuning (🔥 해제 레이어 수 + run_name Phase 2) |
 | ⑩ | — | 6. 성능 평가 & 7. Baseline vs ResNet50 비교 |
 | ⑪ | 학습 곡선 (이미지) / Confusion Matrix (이미지) / 비교 (이미지) / COVID Recall 하락 분석 / 체크리스트 | — |
+
+---
+
+### Day 4-3: Class Imbalance 처리
+
+> 슬라이드: `day4_3-slide-Class Imbalance 처리.md`
+> 노트북: `lectures/day4/start/day4_3-class_imbalance-start.ipynb`
+
+| 단계 | 슬라이드 | 노트북 |
+|:---:|:---|:---|
+| ① | — | 0. 환경 설정 (🔥 repo_owner, repo_name) |
+| ② | Day 4-2 결과 복기 / Class Imbalance 원인 (mermaid) | — |
+| ③ | 해결 전략 Overview (mermaid) | — |
+| ④ | Class Weights 원리 / 계산 수식 | — |
+| ⑤ | — | 1. 데이터 로드 & 2. Class Weights 계산 (🔥 compute_class_weight) |
+| ⑥ | Class Weights 적용 코드 | — |
+| ⑦ | — | 3. Dataset 생성 & 4. 모델 구축 |
+| ⑧ | — | 5. Experiment 1: Class Weights 학습 (🔥 run_name, class_weight) |
+| ⑨ | Resampling 개념 (mermaid + 표) | — |
+| ⑩ | Cross Entropy의 문제 / Focal Loss 수식 (mermaid) | — |
+| ⑪ | Focal Loss 구현 코드 | — |
+| ⑫ | — | 6. Experiment 2: Focal Loss 구현 & 학습 (🔥 focal_term, loss, run_name) |
+| ⑬ | — | 7. 성능 비교 & 8. Best 모델 선정 |
+| ⑭ | 실험 결과 수치 / 결과 이미지 / Confusion Matrix (이미지) | — |
+| ⑮ | 의료 AI 비용 비대칭 (mermaid) / 체크리스트 | — |
 
 ## 옵션 설명
 
