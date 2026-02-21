@@ -78,6 +78,7 @@ docker run --name slidev-m1 --rm -it \
 | `day4_2-slide-Transfer Learning with ResNet50.md` | Day 4-2 슬라이드 |
 | `day4_3-slide-Class Imbalance 처리.md` | Day 4-3 슬라이드 |
 | `day4_4-slide-Grad-CAM & 최종 평가.md` | Day 4-4 슬라이드 |
+| `day5_1-slide-HaGRID 손 제스처 데이터 EDA.md` | Day 5-1 슬라이드 |
 
 ---
 
@@ -418,6 +419,31 @@ docker run --name slidev-m1 --rm -it \
 | ⑫ | PR Curve 코드 / 결과 이미지 | — |
 | ⑬ | — | 5-7. ROC-AUC & PR Curve & Day 4 최종 종합 평가 |
 | ⑭ | 성능 여정 이미지 / 최종 수치 / 기술 스택 (mermaid) / 임상 적용 가능성 / 체크리스트 | — |
+
+---
+
+### Day 5-1: HaGRID 손 제스처 데이터 EDA
+
+> 슬라이드: `day5_1-slide-HaGRID 손 제스처 데이터 EDA.md`
+> 노트북: `lectures/day5/start/day5_1-hagrid_eda-start.ipynb`
+
+| 단계 | 슬라이드 | 노트북 |
+|:---:|:---|:---|
+| ① | — | 0. 환경 설정 (🔥 repo_owner, repo_name) |
+| ② | HaGRID 데이터셋 소개 (19개 클래스 표) / Day 4 vs Day 5 비교 (mermaid + 표) / 경량 모델 필요성 (mermaid) | — |
+| ③ | — | 1. HaGRID 데이터 다운로드 (Kaggle API) |
+| ④ | — | 2. 데이터 구조 탐색 (폴더 확인, 클래스별 이미지 수) |
+| ⑤ | 클래스 분포 이미지 / 샘플 이미지 | — |
+| ⑥ | — | 3. 샘플 이미지 시각화 (5×4 그리드) |
+| ⑦ | tf.data 파이프라인 코드 (JPEG+RGB 설명) | — |
+| ⑧ | — | 4. Train/Val/Test Split (🔥 train_test_split 70/15/15) |
+| ⑨ | — | 5. tf.data.Dataset 생성 |
+| ⑩ | Baseline CNN 아키텍처 (mermaid) | — |
+| ⑪ | — | 6. Baseline CNN 구현 (🔥 3개 Conv Block) |
+| ⑫ | — | 7. Baseline 모델 학습 (🔥 run_name) |
+| ⑬ | — | 8. 모델 평가 (학습 곡선 / Confusion Matrix) |
+| ⑭ | 학습 곡선 이미지 / Confusion Matrix 이미지 | — |
+| ⑮ | Baseline 결과 / Day 5-2 예고 (mermaid) / 체크리스트 | — |
 
 ---
 
