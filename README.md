@@ -74,6 +74,7 @@ docker run --name slidev-m1 --rm -it \
 | `day3_3-slide-하이퍼파라미터 튜닝 with Optuna & MLflow.md` | Day 3-3 슬라이드 |
 | `day3_4-slide-Kaggle 제출 & 결과 분석.md` | Day 3-4 슬라이드 |
 | `day3_5-slide-고급 기법 & 최종 최적화.md` | Day 3-5 슬라이드 (선택) |
+| `day4_1-slide-COVID-19 흉부 X-ray EDA.md` | Day 4-1 슬라이드 |
 
 ---
 
@@ -325,6 +326,27 @@ docker run --name slidev-m1 --rm -it \
 | ⑨ | 최종 전략: Weighted Ensemble + TTA | — |
 | ⑩ | — | 5. 최종 제출 & 6. 최종 성능 분석 (🔥 run_name) |
 | ⑪ | Day 3 전체 성능 여정 (이미지) / 핵심 교훈 (mermaid) / 체크리스트 | — |
+
+---
+
+### Day 4-1: COVID-19 흉부 X-ray EDA
+
+> 슬라이드: `day4_1-slide-COVID-19 흉부 X-ray EDA.md`  
+> 노트북: `lectures/day4/start/day4_1-covid_eda-start.ipynb`
+
+| 단계 | 슬라이드 | 노트북 |
+|:---:|:---|:---|
+| ① | — | 0. 환경 설정 (🔥 repo_owner, repo_name) |
+| ② | 데이터셋 소개 (4클래스 표) / Class Imbalance (이미지+mermaid) | — |
+| ③ | X-ray 소견 비교 (mermaid) / Grayscale→RGB / tf.data 파이프라인 | — |
+| ④ | — | 1. 데이터 다운로드 & 2. EDA & 3. 샘플 이미지 & 4. 픽셀 분포 |
+| ⑤ | Recall의 중요성 (mermaid) / Balanced Accuracy | — |
+| ⑥ | Baseline CNN 아키텍처 (mermaid) | — |
+| ⑦ | — | 5. 데이터 전처리 & 7. Baseline CNN (🔥 train_test_split, build_baseline_cnn) |
+| ⑧ | — | 8. Baseline 모델 학습 (🔥 run_name) |
+| ⑨ | 학습 곡선 (이미지) | — |
+| ⑩ | — | 9. 모델 평가 |
+| ⑪ | Confusion Matrix (이미지) / 결과 분석 / 의료 AI 윤리 / 체크리스트 | — |
 
 ## 옵션 설명
 
