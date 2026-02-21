@@ -28,33 +28,40 @@ layout: default
 - 📈 **MLflow**로 첫 실전 실험 기록
 
 ---
+layout: default
+---
+
+# 🔧 노트북: 0. 환경 재설정
+
+### 이 구간에서 할 일
+- Day 1-1에서 사용한 Dagshub & MLflow 재연동
+- 라이브러리 임포트 확인
+
+---
 layout: center
 class: text-center
 ---
 
-# 1. 데이터 이해
-
-문제 정의 & 탐색적 데이터 분석
+# 문제 정의
 
 ---
 layout: default
 ---
 
-# 1.1 문제 정의
+# 문제 정의
 
 ### 이번 과제
 뉴스 **헤드라인**을 읽고 **7개 토픽** 중 하나로 분류하는 **멀티클래스 분류** 문제입니다.
 
 ### 평가 지표
-**Macro F1-Score** (모든 토픽을 동등하게 평가)
+**Macro F1-Score** — 모든 토픽을 동등하게 평가
 
 ---
 layout: default
 ---
 
-# 1.1 문제 정의: 7개 토픽
+# 문제 정의: 7개 토픽
 
-### 토픽 목록
 | **토픽 인덱스** | **토픽 이름** |
 |:---:|:---|
 | 0 | 정치 |
@@ -69,31 +76,50 @@ layout: default
 layout: default
 ---
 
-# 1.2 탐색적 데이터 분석 (EDA)
+# 탐색적 데이터 분석 (EDA)
 
 ### 데이터 로드 후 확인할 것들
-데이터를 로드하면 가장 먼저 확인할 것들:
 
 - **토픽별 분포**: 클래스 불균형이 있는가?
 - **텍스트 길이**: 뉴스 헤드라인의 평균 길이는?
 - **샘플 확인**: 각 토픽의 실제 헤드라인 예시
 
-**주목할 점**: 뉴스 헤드라인은 대부분 짧고 키워드 중심 → TF-IDF가 의외로 잘 동작할 수 있음
+### 주목할 점
+뉴스 헤드라인은 대부분 짧고 키워드 중심 → TF-IDF가 의외로 잘 동작할 수 있음
+
+---
+layout: default
+---
+
+# 🔧 노트북: 1. 데이터 로드
+
+### 이 구간에서 할 일
+- `train_data.csv`, `test_data.csv` 로드
+- 데이터 크기(shape), 컬럼, 샘플 확인
+
+---
+layout: default
+---
+
+# 🔧 노트북: 2. 탐색적 데이터 분석 (EDA)
+
+### 이 구간에서 할 일
+- 토픽별 분포 시각화
+- 헤드라인 텍스트 길이 분포 확인
+- 토픽별 샘플 헤드라인 출력
 
 ---
 layout: center
 class: text-center
 ---
 
-# 2. 텍스트를 숫자로: TF-IDF
-
-BoW → TF-IDF → Character n-gram
+# 텍스트를 숫자로: TF-IDF
 
 ---
 layout: top_img-bottom_text
 ---
 
-# 2.1 왜 텍스트를 숫자로 바꾸나?
+# 왜 텍스트를 숫자로 바꾸나?
 
 머신러닝 모델은 숫자만 이해합니다.
 
@@ -104,7 +130,7 @@ graph LR
     A[텍스트: 코스피 상승] --> B[숫자 벡터: 0.8, 0.3, ...]
     B --> C[머신러닝 모델]
     C --> D[예측: 경제]
-    
+
     style B fill:#bbf
     style C fill:#bfb
 ```
@@ -117,7 +143,7 @@ graph LR
 layout: two-cols-header
 ---
 
-# 2.2 Bag-of-Words (BoW)
+# Bag-of-Words (BoW)
 
 ### 가장 단순한 방법
 각 단어의 등장 횟수를 세는 것
@@ -144,7 +170,7 @@ layout: two-cols-header
 layout: default
 ---
 
-# 2.3 TF-IDF: 중요한 단어에 가중치
+# TF-IDF: 중요한 단어에 가중치
 
 ### 수식과 직관
 - **TF (Term Frequency)**: 문서 내 단어 빈도  
@@ -159,7 +185,7 @@ layout: default
 layout: top_img-bottom_text
 ---
 
-# 2.3 TF-IDF: IDF 직관
+# TF-IDF: IDF 직관
 
 ::top::
 
@@ -186,20 +212,20 @@ graph TD
 layout: default
 ---
 
-# 2.4 한국어: Character n-gram
+# 한국어: Character n-gram
 
 ### 한국어 교착어 문제
 "경제가", "경제는", "경제의" → TF-IDF는 모두 **다른 단어**로 취급
 
-### 해결책
-`analyzer='char'` (문자 단위 분석)
+### 해결책: `analyzer='char'` (문자 단위 분석)
 
 ```python
 "코스피" → ["코", "스", "피", "코스", "스피", "코스피"]
 ```
 
 - 형태소 분석기 없이도 한국어 처리 가능
-- 띄어쓰기 오류에 강건  
+- 띄어쓰기 오류에 강건
+
 → 이번 실습에서 **`analyzer='char'`** 사용
 
 ---
@@ -207,15 +233,13 @@ layout: center
 class: text-center
 ---
 
-# 3. Logistic Regression
-
-확률 기반 분류 & C 파라미터
+# Logistic Regression
 
 ---
 layout: top_img-bottom_text
 ---
 
-# 3.1 원리
+# Logistic Regression 원리
 
 ::top::
 
@@ -241,7 +265,7 @@ graph LR
 layout: img_caption
 ---
 
-# 3.2 C 파라미터 (Regularization)
+# C 파라미터 (Regularization)
 
 ::img-fit-width::
 
@@ -263,8 +287,7 @@ graph TD
 
 ::caption::
 
-과적합을 방지하는 **규제 강도**를 조절합니다. 
-
+과적합을 방지하는 **규제 강도**를 조절합니다.  
 C=1.0으로 시작 → 0.1, 10.0 비교 → 최적값 탐색
 
 ---
@@ -272,13 +295,13 @@ layout: center
 class: text-center
 ---
 
-# 4. 평가 지표: Accuracy vs F1
+# 평가 지표: Accuracy vs F1
 
 ---
 layout: two-cols-header
 ---
 
-# 4.1 Accuracy의 함정
+# Accuracy의 함정
 
 ::left::
 
@@ -291,7 +314,7 @@ layout: two-cols-header
 
 ::right::
 
-### 해결: F1-Score  
+### 해결: F1-Score
 Precision과 Recall의 조화 평균
 
 **Macro F1**: 각 클래스 F1의 **단순 평균** → 모든 토픽을 동등하게 평가  
@@ -302,31 +325,13 @@ layout: center
 class: text-center
 ---
 
-# 5. 베이스라인 구현
-
-데이터 준비 → TF-IDF → 학습 → 평가 → MLflow
-
----
-layout: default
----
-
-# 5.0 Train/Validation 분리
-
-### 🔥 이 부분을 같이 작성해봅시다
-실습 노트북에서 **train_test_split**으로 Train/Validation을 나누어 보세요.
-
-```python
-X = train_df['title']
-y = train_df['topic_idx']
-
-X_train, X_val, y_train, y_val = # 🔥 직접 작성이 필요합니다.
-```
+# 베이스라인 구현 전 주의사항
 
 ---
 layout: img_caption
 ---
 
-# 5.1 데이터 준비 & TF-IDF
+# Train/Val 분리: 데이터 누수 주의
 
 ::img-fit-width::
 
@@ -351,52 +356,53 @@ graph TD
 layout: default
 ---
 
-# 5.1 데이터 준비 & TF-IDF (코드)
+# 🔧 노트북: 3. 베이스라인 모델
 
-### 🔥 이 부분을 같이 작성해봅시다
-**TfidfVectorizer( )** 파라미터와 **fit_transform** / **transform** 두 줄을 실습 노트북에서 채워보세요.
+### 🔥 함께 작성해볼 부분
+- **train_test_split**: Train/Validation 분리 (80/20, stratify)
+- **TfidfVectorizer**: `analyzer='char'` 등 파라미터 설정
+- **fit_transform** (train) / **transform** (val)
+- **LogisticRegression** 모델 생성
+- 예측·평가 지표 계산 (accuracy_score, f1_score)
+
+---
+layout: center
+class: text-center
+---
+
+# MLflow 실험 기록
+
+---
+layout: default
+---
+
+# MLflow 실험 기록
+
+### 기록할 내용
+- **파라미터**: max_features, C, analyzer, ngram_range 등
+- **메트릭**: val_f1_macro, val_accuracy
+
+### run_name 규칙
+설정을 이름에 명시해두면 나중에 구분이 쉽습니다.
 
 ```python
-tfidf = # 🔥 직접 작성이 필요합니다.
-
-X_train_tfidf = # 🔥 직접 작성이 필요합니다.
-X_val_tfidf   = # 🔥 직접 작성이 필요합니다.
+with mlflow.start_run(run_name="tfidf-maxfeat5000-C1.0-unigram"):
+    mlflow.log_param('max_features', 5000)
+    mlflow.log_param('C', 1.0)
+    mlflow.log_metric('val_f1_macro', val_f1)
 ```
 
 ---
 layout: default
 ---
 
-# 5.2 모델 학습 & 평가
+# 🔧 노트북: 4. MLflow 실험 로깅
 
-### 🔥 이 부분을 같이 작성해봅시다
-**LogisticRegression( )** 과 **예측·평가 지표** 계산을 실습 노트북에서 채워보세요.
-
-```python
-model = # 🔥 직접 작성이 필요합니다.
-model.fit(X_train_tfidf, y_train)
-
-y_train_pred = # 🔥 직접 작성이 필요합니다.
-y_val_pred   = # 🔥 직접 작성이 필요합니다.
-
-train_acc = # 🔥 직접 작성이 필요합니다.
-val_acc   = # 🔥 직접 작성이 필요합니다.
-train_f1  = # 🔥 직접 작성이 필요합니다.
-val_f1    = # 🔥 직접 작성이 필요합니다.
-```
-
----
-layout: default
----
-
-# 5.3 MLflow 실험 기록
-
-### 🔥 이 부분은 수정이 필요합니다
-실습 노트북에서 `run_name`을 비워두었습니다.  
-실험을 구분하기 쉬운 이름으로 채운 뒤 실행하고, Dagshub UI에서 확인해보세요.
+### 🔥 함께 작성해볼 부분
+- **run_name**: 실험을 구분하기 쉬운 이름으로 채우기
 
 ```python
-with mlflow.start_run(run_name=""):  # 원하는 실험 이름 입력
+with mlflow.start_run(run_name=""):  # 🔥 직접 작성이 필요합니다.
     mlflow.log_param('max_features', 5000)
     mlflow.log_param('C', 1.0)
     mlflow.log_metric('val_f1_macro', val_f1)
@@ -407,13 +413,13 @@ layout: center
 class: text-center
 ---
 
-# 6. 성능 개선 실험
+# 성능 개선 실험
 
 ---
 layout: img_caption
 ---
 
-# 6.1 실험 설계 원칙
+# 실험 설계 원칙
 
 ::img-fit-width::
 
@@ -428,46 +434,52 @@ graph TD
     style A fill:#bbf
     style F fill:#bfb
 ```
+
 한 번에 하나의 파라미터만 변경!
 
 ---
 layout: default
 ---
 
-# 6.1 실험 설계 (목록)
+# 실험 설계 목록
 
 ### 실험 순서
-1. **max_features** 조정 (3000 / 5000 / 10000)  
-2. **C** 값 조정 (0.1 / 1.0 / 10.0)  
+1. **max_features** 조정 (3000 / 5000 / 10000)
+2. **C** 값 조정 (0.1 / 1.0 / 10.0)
 3. **ngram_range** 조정 ((1,1) / (1,2) / (2,3))
 
-`run_name`에 설정을 넣어두면 나중에 구분이 쉽습니다.  
-예: `tfidf-maxfeat5000-C1.0-unigram`
+### 예상 결과 패턴
+- **max_features ↑** → F1 ↑ (일정 수준까지)
+- **C = 0.1** → 규제 강함, Underfitting 가능
+- **C = 10.0** → 규제 약함, Overfitting 가능
+- **ngram (1,2)** → 약간의 성능 향상 기대
 
 ---
 layout: default
 ---
 
-# 6.2 예상 결과 패턴
+# 🔧 노트북: 5. 성능 개선 실험
 
-### 참고
-- **max_features ↑** → F1 ↑ (일정 수준까지)
-- **C = 0.1** → 규제 강함, Underfitting 가능  
-- **C = 10.0** → 규제 약함, Overfitting 가능  
-- **ngram (1,2)** → 약간의 성능 향상 기대
+### 이 구간에서 할 일
+- max_features, C, ngram_range 조합을 바꿔가며 실험
+- 각 실험마다 MLflow run_name에 설정을 명시해 기록
 
 ---
-layout: center
-class: text-center
+layout: default
 ---
 
-# 7. 베이스라인의 의미
+# 🔧 노트북: 6. 실험 결과 비교
+
+### 이 구간에서 할 일
+- Dagshub UI에서 실험 목록 확인
+- 체크박스로 실험 선택 → **Compare** → Parallel Coordinates
+- 최고 성능 설정 확인
 
 ---
 layout: top_img-bottom_text
 ---
 
-# 7. 왜 간단한 모델부터 시작하나?
+# 베이스라인의 의미
 
 ::top::
 
@@ -487,7 +499,9 @@ graph LR
 ::bottom::
 
 ### 베이스라인의 역할
-1. **빠른 검증** 2. **비교 기준** 3. **실용성**: 때로는 TF-IDF만으로도 충분
+1. **빠른 검증**: 데이터에 문제가 없는지 빠르게 확인
+2. **비교 기준**: BERT가 얼마나 더 나은지 측정
+3. **실용성**: 때로는 TF-IDF만으로도 충분
 
 ---
 layout: default
@@ -501,6 +515,7 @@ layout: default
 | GPU 필요 | ❌ | ✅ |
 | 예상 F1 | ~0.80 | ~0.90 |
 | 해석 가능성 | 높음 | 낮음 |
+| 메모리 | 적음 | 많음 |
 
 ---
 layout: default
