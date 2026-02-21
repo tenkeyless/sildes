@@ -42,6 +42,7 @@ layout: default
 # 🔧 노트북: 0. 환경 재설정
 
 ### 이 구간에서 할 일
+
 - Transformers·datasets 설치, 라이브러리 임포트
 - Dagshub & MLflow 재연동 (**repo_owner**, **repo_name** 작성)
 
@@ -71,12 +72,14 @@ layout: default
 # TF-IDF가 못하는 것
 
 ### 예시
+
 - "배가 고프다" → TF-IDF: "배" = 숫자 하나  
 - "배로 떠났다" → TF-IDF: "배" = **같은 숫자** (의미 구분 불가!)
 
 <div class="mt-8" />
 
 ### TF-IDF의 근본적 한계
+
 - **단어 순서 무시**: "주가 상승"과 "상승 주가" 동일 취급  
 - **문맥 이해 불가**: 동음이의어 구분 불가  
 - **동의어 인식 불가**: "오르다"와 "상승"을 별개 단어로 처리
@@ -108,6 +111,7 @@ layout: default
 # 딥러닝의 접근: 의미 벡터
 
 ### TF-IDF vs BERT
+
 - **TF-IDF**: 단어 = 숫자 하나 → "경제" → 0.82  
 - **BERT**: 단어 = **768차원 의미 벡터** → 문맥에 따라 다른 벡터
 
@@ -149,6 +153,7 @@ layout: default
 # Attention 메커니즘
 
 ### 핵심 아이디어
+
 모든 단어를 **동시에** 보면서, 현재 단어와 **관련 있는 단어에 집중**하자!
 
 **Query(현재 단어) × Key(각 단어 특성) → Attention 가중치 → Value(각 단어 정보) 가중합**
@@ -219,11 +224,13 @@ layout: default
 대량의 텍스트로 두 가지 태스크를 학습합니다.
 
 ### Masked Language Model (MLM)
+
 - 원본: "삼성전자가 신제품을 출시했다"  
-- 마스킹: "삼성전자가 [MASK]을 출시했다"  
-- 학습: [MASK]에 "신제품" 예측
+- 마스킹: "삼성전자가 `[MASK]`을 출시했다"  
+- 학습: `[MASK]`에 "신제품" 예측
 
 ### Next Sentence Prediction (NSP)
+
 - 문장 A, B가 이어지는지 예측
 
 ---
@@ -315,6 +322,7 @@ graph LR
 ::bottom::
 
 ### 특수 토큰
+
 - **`[CLS]`**: 문장 전체의 의미 (분류에 사용)  
 - **`[SEP]`**: 문장 구분  
 - **`[PAD]`**: 길이 맞추기  
@@ -349,6 +357,7 @@ layout: default
 # 🤖 노트북: 2. BERT 모델 및 Tokenizer 로드
 
 ### 이 구간에서 할 일
+
 - **model_name** & **tokenizer** (예: `klue/bert-base`)
 - **model**: `AutoModelForSequenceClassification.from_pretrained(..., num_labels=7)`
 - 토큰화 함수 정의 및 `train_tokenized`, `val_tokenized` 생성
@@ -367,9 +376,11 @@ layout: default
 # BERT Fine-tuning이란
 
 ### 개념
+
 우리 태스크(**뉴스 7-class 분류**)에 맞게, 이미 한국어를 이해하는 BERT를 **추가로 학습**하는 단계입니다.
 
 ### Hugging Face에서의 역할
+
 - **TrainingArguments**: 에포크 수, 배치 크기, 학습률, warmup, 저장 주기 등 한 번에 설정  
 - **Trainer**: 학습 루프(에포크 반복, 배치 단위 학습, 검증, 체크포인트 저장)를 대신 처리
 
@@ -450,6 +461,7 @@ layout: default
 # 🏋️ 노트북: 3. BERT Fine-tuning
 
 ### 🔥 함께 작성해볼 부분
+
 - **TrainingArguments**: num_train_epochs, per_device_train_batch_size, per_device_eval_batch_size, learning_rate, warmup_steps, weight_decay  
 - **compute_metrics**: accuracy_score, f1_score → `{'accuracy', 'f1'}` 반환  
 - **Trainer** 생성: model, args, train_dataset, eval_dataset, compute_metrics  
@@ -462,6 +474,7 @@ layout: default
 # 📊 노트북: 4. 모델 평가
 
 ### 이 구간에서 할 일
+
 - **eval_result**: `trainer.evaluate()`
 - **predictions**, **y_pred**, **y_true**: `trainer.predict(val_tokenized)` 후 argmax·label  
 - Classification Report, Confusion Matrix 확인
@@ -473,6 +486,7 @@ layout: default
 # MLflow 실험 기록
 
 ### 🔥 이 부분은 수정이 필요합니다
+
 실습 노트북에서 **run_name**을 비워두었습니다.  
 BERT 실험을 구분하기 쉬운 이름으로 채운 뒤 Dagshub UI에서 확인해보세요.
 
@@ -490,6 +504,7 @@ layout: default
 # 🔬 노트북: 5. MLflow 실험 로깅
 
 ### 이 구간에서 할 일
+
 - **run_name** 채우기  
 - BERT 실험 파라미터·메트릭 로깅  
 - (선택) 6. 성능 개선 실험 (LR, epochs, 다른 모델)
@@ -547,14 +562,17 @@ layout: default
 # 🔧 트러블슈팅
 
 ### GPU Out of Memory
+
 - `per_device_train_batch_size` 16 → 8  
 - 또는 `fp16=False`
 
 ### 학습이 너무 느려요
+
 - GPU 확인: `torch.cuda.is_available()`  
 - `fp16=True` 활성화
 
 ### F1이 낮아요
+
 - Learning rate 낮추기 (1e-5)  
 - Epochs 늘리기  
 - 데이터 label 매핑 확인

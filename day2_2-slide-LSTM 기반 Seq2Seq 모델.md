@@ -35,6 +35,7 @@ layout: default
 # 🔧 노트북: 1. 환경 설정
 
 ### 🔥 함께 작성해볼 부분
+
 - **repo_owner**, **repo_name**을 본인의 Dagshub 정보로 채우기
 
 ```python
@@ -57,6 +58,7 @@ layout: default
 # 왜 LSTM인가?
 
 ### 기본 RNN의 문제
+
 ```
 문장: "The cat, which was very hungry and tired, ate the food"
 
@@ -67,6 +69,7 @@ RNN: h₁ → h₂ → h₃ → ... → h₁₀
 ```
 
 ### LSTM의 해결책
+
 **Cell State**라는 별도 경로로 장기 기억을 유지합니다.
 
 ```
@@ -159,6 +162,7 @@ layout: default
 # Encoder
 
 ### 역할
+
 입력 문장 전체를 읽고 `(hidden, cell)` Context를 생성합니다.
 
 ```python
@@ -174,6 +178,7 @@ class Encoder(nn.Module):
 ```
 
 ### 포인트
+
 - `outputs`: 모든 시점의 hidden state (Attention에서 사용)
 - `hidden`, `cell`: 마지막 상태 → Decoder 초기값
 
@@ -184,6 +189,7 @@ layout: default
 # Decoder
 
 ### 역할
+
 Context를 초기 상태로 받아 단어를 **한 번에 1개씩** 생성합니다.
 
 ```python
@@ -266,6 +272,7 @@ layout: default
 # 🔧 노트북: 2. Day 2-1 데이터 로드
 
 ### 이 구간에서 할 일
+
 - Tatoeba EN-DE 데이터 및 Vocabulary 재구성 (Day 2-1 코드 재사용)
 - `train_src`, `train_tgt`, `en_vocab`, `de_vocab` 준비
 
@@ -293,12 +300,14 @@ layout: default
 # Loss & Gradient Clipping
 
 ### Loss Function
+
 ```python
 # PAD 토큰(index=0)은 Loss 계산에서 제외
 criterion = nn.CrossEntropyLoss(ignore_index=0)
 ```
 
 ### Gradient Clipping
+
 LSTM은 **Gradient Exploding** 문제가 발생할 수 있습니다.
 
 ```python
@@ -377,6 +386,7 @@ layout: default
 # 🔧 노트북: 5. 학습 준비 & 6. 학습 루프
 
 ### 이 구간에서 할 일
+
 - 하이퍼파라미터 설정 (EMBEDDING_SIZE=256, HIDDEN_SIZE=512, LEARNING_RATE=0.001)
 - Encoder / Decoder / Seq2Seq 모델 생성
 - `train_epoch`, `translate_sentence` 함수 확인
@@ -388,6 +398,7 @@ layout: default
 # 🔧 노트북: 7. 실험 1: Baseline
 
 ### 🔥 함께 작성해볼 부분
+
 **run_name**을 실험을 구분하기 쉬운 이름으로 채우기
 
 ```python
@@ -400,6 +411,7 @@ with mlflow.start_run(run_name=""):  # 🔥 직접 작성이 필요합니다.
 ```
 
 ### 예상 결과
+
 ```
 Epoch  1: train_loss ~4.2  val_bleu ~3
 Epoch  5: train_loss ~2.8  val_bleu ~8
@@ -413,6 +425,7 @@ layout: default
 # 🔧 노트북: 8. 학습 곡선 시각화
 
 ### 이 구간에서 할 일
+
 - Loss 곡선 & BLEU 곡선 그리기
 - Dagshub UI에서 MLflow 실험 확인
 
@@ -507,10 +520,12 @@ layout: default
 # 🔧 노트북: 9. Attention 구현 & 실험 2 (선택)
 
 ### 이 구간에서 할 일
+
 - `Attention`, `DecoderWithAttention`, `Seq2SeqWithAttention` 클래스 확인
 - MLflow run_name 채우고 학습 실행
 
 ### 예상 성능 향상
+
 ```
 Baseline BLEU:  ~8–15
 Attention BLEU: ~12–22  (+40% 향상)
@@ -525,6 +540,7 @@ layout: default
 # Greedy Decoding (추론)
 
 ### 추론 방식
+
 ```python
 def translate_sentence(model, sentence_ids, ...):
     model.eval()

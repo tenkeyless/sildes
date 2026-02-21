@@ -34,6 +34,7 @@ layout: default
 # 🔧 노트북: 0. 환경 재설정
 
 ### 이 구간에서 할 일
+
 - Day 1-1에서 사용한 Dagshub & MLflow 재연동
 - 라이브러리 임포트 확인
 
@@ -51,6 +52,7 @@ layout: default
 # 문제 정의
 
 ### 이번 과제
+
 뉴스 **헤드라인**을 읽고 **7개 토픽** 중 하나로 분류하는 **멀티클래스 분류** 문제입니다.
 
 ### 평가 지표
@@ -85,6 +87,7 @@ layout: default
 - **샘플 확인**: 각 토픽의 실제 헤드라인 예시
 
 ### 주목할 점
+
 뉴스 헤드라인은 대부분 짧고 키워드 중심 → TF-IDF가 의외로 잘 동작할 수 있음
 
 ---
@@ -94,6 +97,7 @@ layout: default
 # 🔧 노트북: 1. 데이터 로드
 
 ### 이 구간에서 할 일
+
 - `train_data.csv`, `test_data.csv` 로드
 - 데이터 크기(shape), 컬럼, 샘플 확인
 
@@ -104,6 +108,7 @@ layout: default
 # 🔧 노트북: 2. 탐색적 데이터 분석 (EDA)
 
 ### 이 구간에서 할 일
+
 - 토픽별 분포 시각화
 - 헤드라인 텍스트 길이 분포 확인
 - 토픽별 샘플 헤드라인 출력
@@ -146,6 +151,7 @@ layout: two-cols-header
 # Bag-of-Words (BoW)
 
 ### 가장 단순한 방법
+
 각 단어의 등장 횟수를 세는 것
 
 ::left::
@@ -173,6 +179,7 @@ layout: default
 # TF-IDF: 중요한 단어에 가중치
 
 ### 수식과 직관
+
 - **TF (Term Frequency)**: 문서 내 단어 빈도  
   `TF = (단어 등장 횟수) / (문서 전체 단어 수)`
 - **IDF (Inverse Document Frequency)**: 단어의 희귀성  
@@ -215,6 +222,7 @@ layout: default
 # 한국어: Character n-gram
 
 ### 한국어 교착어 문제
+
 "경제가", "경제는", "경제의" → TF-IDF는 모두 **다른 단어**로 취급
 
 ### 해결책: `analyzer='char'` (문자 단위 분석)
@@ -310,14 +318,19 @@ layout: two-cols-header
 - 모델: 무조건 "정치" 예측  
 → **Accuracy = 90%**
 
-**하지만** 소수 클래스(경제 등)는 전혀 못 맞춤 → 쓸모없는 모델!
+**하지만** 소수 클래스(경제 등)는 전혀 못 맞춤 
+
+→ 쓸모없는 모델!
 
 ::right::
 
 ### 해결: F1-Score
 Precision과 Recall의 조화 평균
 
-**Macro F1**: 각 클래스 F1의 **단순 평균** → 모든 토픽을 동등하게 평가  
+**Macro F1**: 각 클래스 F1의 **단순 평균** 
+
+→ 모든 토픽을 동등하게 평가  
+
 → **이 대회에서 사용**
 
 ---
@@ -359,6 +372,7 @@ layout: default
 # 🔧 노트북: 3. 베이스라인 모델
 
 ### 🔥 함께 작성해볼 부분
+
 - **train_test_split**: Train/Validation 분리 (80/20, stratify)
 - **TfidfVectorizer**: `analyzer='char'` 등 파라미터 설정
 - **fit_transform** (train) / **transform** (val)
@@ -379,10 +393,12 @@ layout: default
 # MLflow 실험 기록
 
 ### 기록할 내용
+
 - **파라미터**: max_features, C, analyzer, ngram_range 등
 - **메트릭**: val_f1_macro, val_accuracy
 
 ### run_name 규칙
+
 설정을 이름에 명시해두면 나중에 구분이 쉽습니다.
 
 ```python
@@ -399,6 +415,7 @@ layout: default
 # 🔧 노트북: 4. MLflow 실험 로깅
 
 ### 🔥 함께 작성해볼 부분
+
 - **run_name**: 실험을 구분하기 쉬운 이름으로 채우기
 
 ```python
@@ -435,6 +452,8 @@ graph TD
     style F fill:#bfb
 ```
 
+::caption::
+
 한 번에 하나의 파라미터만 변경!
 
 ---
@@ -444,11 +463,13 @@ layout: default
 # 실험 설계 목록
 
 ### 실험 순서
+
 1. **max_features** 조정 (3000 / 5000 / 10000)
 2. **C** 값 조정 (0.1 / 1.0 / 10.0)
 3. **ngram_range** 조정 ((1,1) / (1,2) / (2,3))
 
 ### 예상 결과 패턴
+
 - **max_features ↑** → F1 ↑ (일정 수준까지)
 - **C = 0.1** → 규제 강함, Underfitting 가능
 - **C = 10.0** → 규제 약함, Overfitting 가능
@@ -461,6 +482,7 @@ layout: default
 # 🔧 노트북: 5. 성능 개선 실험
 
 ### 이 구간에서 할 일
+
 - max_features, C, ngram_range 조합을 바꿔가며 실험
 - 각 실험마다 MLflow run_name에 설정을 명시해 기록
 
@@ -471,6 +493,7 @@ layout: default
 # 🔧 노트북: 6. 실험 결과 비교
 
 ### 이 구간에서 할 일
+
 - Dagshub UI에서 실험 목록 확인
 - 체크박스로 실험 선택 → **Compare** → Parallel Coordinates
 - 최고 성능 설정 확인
@@ -499,6 +522,7 @@ graph LR
 ::bottom::
 
 ### 베이스라인의 역할
+
 1. **빠른 검증**: 데이터에 문제가 없는지 빠르게 확인
 2. **비교 기준**: BERT가 얼마나 더 나은지 측정
 3. **실용성**: 때로는 TF-IDF만으로도 충분

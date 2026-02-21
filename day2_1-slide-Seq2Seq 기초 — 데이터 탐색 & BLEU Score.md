@@ -35,6 +35,7 @@ layout: default
 # 🔧 노트북: 0. 환경 설정
 
 ### 🔥 함께 작성해볼 부분
+
 - **repo_owner**, **repo_name**을 본인의 Dagshub 정보로 채우기
 
 ```python
@@ -89,6 +90,7 @@ layout: default
 ```
 
 ### 번역을 어렵게 만드는 요소
+
 - **단어 중의성**: "bank" = 은행? 강둑?
 - **관용 표현**: 직역이 의미를 잃는 경우
 - **문화적 차이**: 언어마다 다른 표현 방식
@@ -237,6 +239,7 @@ layout: default
 # 🔧 노트북: 1. 데이터 로드 & EDA
 
 ### 이 구간에서 할 일
+
 - Tatoeba EN-DE 데이터 다운로드 (KaggleHub)
 - 교육용 서브셋 필터링 (단어 수 3~12개, 5,000개 샘플)
 - 문장 길이 분포 시각화
@@ -283,6 +286,7 @@ layout: default
 | `<UNK>` | 3 | 사전에 없는 단어 대체 |
 
 ### freq_threshold
+
 `freq_threshold=2`의 의미: **2회 미만** 등장한 단어는 `<UNK>`으로 처리  
 → 모델 일반화 성능 향상, 사전 크기 축소
 
@@ -293,11 +297,13 @@ layout: default
 # Vocabulary 구축 주의사항
 
 ### 데이터 누수 방지
+
 Vocabulary는 **Train 데이터만**으로 구축해야 합니다.
 
 Validation/Test 데이터의 단어를 미리 알면 → **데이터 누수(Data Leakage)** 발생
 
 ### Zipf's Law
+
 빈도 순위 r인 단어의 빈도 ∝ 1/r  
 → 상위 소수 단어가 전체 빈도 대부분을 차지  
 → `freq_threshold=2`로 희귀 단어를 `<UNK>` 처리해도 큰 정보 손실 없음
@@ -309,6 +315,7 @@ layout: default
 # 🔧 노트북: Vocabulary 구축
 
 ### 🔥 함께 작성해볼 부분
+
 **Vocabulary** 클래스의 `build()` 메서드와 `encode()` 메서드 핵심 부분
 
 ```python
@@ -376,6 +383,7 @@ layout: default
 n이 커질수록 단어 **순서와 문맥**까지 요구 → 더 엄격한 평가
 
 ### Modified Precision — 반복 부풀리기 방지
+
 ```
 ref  = "The cat"       →  "the/The" 최대 2번까지만 인정
 cand = "the the the"   →  Count_clip = min(3, 2) = 2만 인정
@@ -407,11 +415,13 @@ layout: default
 # BLEU의 한계
 
 ### 주요 단점
+
 - **동의어 인식 불가**: "adore"와 "love"는 의미가 같지만 다른 단어로 취급
 - **정답이 하나일 때 불리**: 다양한 번역이 가능하지만 하나만 정답으로 설정
 - **문법 체크 불가**: 단어는 맞지만 순서가 틀려도 일정 점수
 
 ### 결론
+
 BLEU는 **참고용 지표**이며, 최근에는 BERTScore 등 의미론적 지표와 함께 사용합니다.
 
 ---
@@ -421,6 +431,7 @@ layout: default
 # 🔧 노트북: 5. BLEU Score
 
 ### 이 구간에서 할 일
+
 - `sacrebleu`로 sentence_bleu, corpus_bleu 계산
 - n-gram precision 직접 계산 (1-gram ~ 4-gram)
 - 다양한 번역 품질 예시로 직관 쌓기
@@ -463,6 +474,7 @@ layout: default
 # 🔧 노트북: 6. Seq2Seq 입력 데이터 준비
 
 ### 🔥 함께 작성해볼 부분
+
 **encode_sentence()** 함수에서 `max_len`에 맞게 자르고 PAD로 채우는 부분
 
 ```python
@@ -492,13 +504,16 @@ layout: default
 # MLflow 기록 내용
 
 ### 기록할 파라미터
+
 - `vocab_freq_threshold`, `max_len`, `train_size`, `val_size`
 
 ### 기록할 메트릭
+
 - `en_vocab_size`, `de_vocab_size`
 - `en_vocab_coverage`, `de_vocab_coverage`
 
 ### Vocab Coverage
+
 Train 단어 중 사전에 등록된 비율 — **90% 이상**이 적정 수준
 
 ---
@@ -508,6 +523,7 @@ layout: default
 # 🔧 노트북: 7. MLflow 실험 기록
 
 ### 🔥 함께 작성해볼 부분
+
 **run_name**을 실험을 구분하기 쉬운 이름으로 채우기
 
 ```python

@@ -34,6 +34,7 @@ layout: default
 # 🔧 노트북: 1. 환경 설정
 
 ### 🔥 함께 작성해볼 부분
+
 - **repo_owner**, **repo_name**을 본인의 Dagshub 정보로 채우기
 
 ```python
@@ -76,6 +77,7 @@ layout: default
 # Self-Attention
 
 ### 핵심 아이디어
+
 문장 내 **모든 단어가 서로를 직접 참조**합니다.
 
 ```
@@ -87,6 +89,7 @@ layout: default
 ```
 
 ### 수식
+
 **`Attention(Q, K, V) = softmax(QK^T / √d_k) × V`**
 
 - **Query (Q)**: 현재 단어 — "무엇을 찾고 있는가?"
@@ -124,6 +127,7 @@ layout: default
 # Positional Encoding
 
 ### 문제
+
 Self-Attention은 단어 **순서 정보가 없습니다**.
 
 ```
@@ -131,6 +135,7 @@ Self-Attention은 단어 **순서 정보가 없습니다**.
 ```
 
 ### 해결
+
 위치 정보를 Embedding에 **더해줍니다**.
 
 ```
@@ -201,6 +206,7 @@ class EncoderLayer(nn.Module):
 ```
 
 ### Residual Connection
+
 각 서브레이어의 입력을 출력에 더함 → **Gradient Vanishing 방지**
 
 ---
@@ -210,6 +216,7 @@ layout: default
 # Decoder Layer의 특징
 
 ### Masked Self-Attention
+
 미래 단어를 볼 수 없도록 마스킹
 
 ```
@@ -217,6 +224,7 @@ layout: default
 ```
 
 ### Cross-Attention
+
 Decoder Query가 **Encoder 전체 출력**을 참조  
 → LSTM Seq2Seq의 Attention과 동일한 역할
 
@@ -292,6 +300,7 @@ layout: default
 | 예상 BLEU | ~25 | ~40+ |
 
 ### Zero-Shot 번역 (학습 없이 바로 사용)
+
 ```python
 from transformers import MarianMTModel, MarianTokenizer
 
@@ -310,6 +319,7 @@ layout: default
 # 🔧 노트북: 2. 데이터 준비
 
 ### 이 구간에서 할 일
+
 - Tatoeba EN-DE 데이터 로드 (Day 2-1 코드 재사용)
 - 번역 샘플 확인
 
@@ -320,6 +330,7 @@ layout: default
 # 🔧 노트북: 3. MarianMT 모델 로드
 
 ### 🔥 함께 작성해볼 부분
+
 **model_name**을 채워보세요.
 
 ```python
@@ -378,6 +389,7 @@ Step 3:
 ```
 
 ### 왜 Beam Search가 더 나은가?
+
 - **Greedy**: "나는(0.9) 학교(0.1) 간다(0.2)" → 0.9×0.1×0.2 = **0.018**
 - **Beam**: "나(0.4)는 학교(0.8)에 간다(0.9)" → 0.4×0.8×0.9 = **0.288**
 
@@ -388,6 +400,7 @@ layout: default
 # 🔧 노트북: 4. Zero-Shot 번역
 
 ### 🔥 함께 작성해볼 부분
+
 **translate()** 함수에서 model.generate와 tokenizer.batch_decode 채우기
 
 ```python
@@ -410,9 +423,11 @@ layout: default
 # 🔧 노트북: 5. Beam Search 실험
 
 ### 이 구간에서 할 일
+
 - beam_size 1, 3, 5, 10으로 번역 품질·속도 비교
 
 ### 예상 결과
+
 ```
 Beam Size  1 (Greedy): BLEU ~58, 속도 가장 빠름
 Beam Size  3:          BLEU ~62
@@ -427,6 +442,7 @@ layout: default
 # 🔧 노트북: 6. BLEU Score 평가
 
 ### 이 구간에서 할 일
+
 - `calculate_bleu_marianmt(model, df, beam_size=5)` 실행
 - Zero-Shot 성능 확인 (BLEU 50+)
 
@@ -437,11 +453,16 @@ layout: default
 # MLflow 실험 기록
 
 ### 기록할 내용
+
 - **파라미터**: model_name, architecture, encoder/decoder_layers, beam_size
 - **메트릭**: val_bleu (beam_size별)
 
 ### 이번 실험의 의미
-Day 2 전체 실험을 MLflow에 쌓으면 → Dagshub UI에서  
+
+Day 2 전체 실험을 MLflow에 쌓으면 
+
+→ Dagshub UI에서  
+
 **LSTM Baseline → LSTM+Attention → MarianMT** 성능 진화를 한눈에 비교할 수 있습니다.
 
 ---
@@ -451,6 +472,7 @@ layout: default
 # 🔧 노트북: 7. MLflow 실험 기록
 
 ### 🔥 함께 작성해볼 부분
+
 **run_name**을 실험을 구분하기 쉬운 이름으로 채우기
 
 ```python
@@ -470,6 +492,7 @@ layout: default
 # 🔧 노트북: 8. Day 2 전체 모델 성능 비교
 
 ### 이 구간에서 할 일
+
 - LSTM Baseline / LSTM+Attention / MarianMT BLEU 비교 시각화
 
 ---
@@ -559,4 +582,5 @@ layout: default
 | Day 2-3 | Transformer & MarianMT | Self-Attention, Beam Search | ~60+ |
 
 ### 다음 단계
+
 Day 3에서는 **이미지 분류** 실전 프로젝트로 이어집니다.
