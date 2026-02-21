@@ -75,6 +75,7 @@ docker run --name slidev-m1 --rm -it \
 | `day3_4-slide-Kaggle 제출 & 결과 분석.md` | Day 3-4 슬라이드 |
 | `day3_5-slide-고급 기법 & 최종 최적화.md` | Day 3-5 슬라이드 (선택) |
 | `day4_1-slide-COVID-19 흉부 X-ray EDA.md` | Day 4-1 슬라이드 |
+| `day4_2-slide-Transfer Learning with ResNet50.md` | Day 4-2 슬라이드 |
 
 ---
 
@@ -347,6 +348,27 @@ docker run --name slidev-m1 --rm -it \
 | ⑨ | 학습 곡선 (이미지) | — |
 | ⑩ | — | 9. 모델 평가 |
 | ⑪ | Confusion Matrix (이미지) / 결과 분석 / 의료 AI 윤리 / 체크리스트 | — |
+
+---
+
+### Day 4-2: Transfer Learning with ResNet50
+
+> 슬라이드: `day4_2-slide-Transfer Learning with ResNet50.md`  
+> 노트북: `lectures/day4/start/day4_2-transfer_learning-start.ipynb`
+
+| 단계 | 슬라이드 | 노트북 |
+|:---:|:---|:---|
+| ① | — | 0. 환경 설정 (🔥 repo_owner, repo_name) |
+| ② | Day 4-1 결과 복기 / Transfer Learning 아이디어 (mermaid) / Feature Extraction vs Fine-tuning 표 / 2단계 전략 (mermaid) | — |
+| ③ | ResNet50 Skip Connection (mermaid) / 전체 구조 (mermaid) / 의료 이미지 Augmentation 주의사항 | — |
+| ④ | — | 1. 데이터 로드 & 2. Data Augmentation |
+| ⑤ | Phase 1: Feature Extraction 개념 | — |
+| ⑥ | — | 3. ResNet50 모델 구축 (🔥 Custom Classifier: Dense + BN + Dropout) |
+| ⑦ | — | 4. Phase 1 학습 (🔥 run_name Phase 1) |
+| ⑧ | Phase 2: Fine-tuning 개념 / LR 이유 / ReduceLROnPlateau | — |
+| ⑨ | — | 5. Phase 2 Fine-tuning (🔥 해제 레이어 수 + run_name Phase 2) |
+| ⑩ | — | 6. 성능 평가 & 7. Baseline vs ResNet50 비교 |
+| ⑪ | 학습 곡선 (이미지) / Confusion Matrix (이미지) / 비교 (이미지) / COVID Recall 하락 분석 / 체크리스트 | — |
 
 ## 옵션 설명
 
