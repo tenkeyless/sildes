@@ -73,6 +73,7 @@ docker run --name slidev-m1 --rm -it \
 | `day3_2-slide-다양한 CNN 아키텍처 비교.md` | Day 3-2 슬라이드 |
 | `day3_3-slide-하이퍼파라미터 튜닝 with Optuna & MLflow.md` | Day 3-3 슬라이드 |
 | `day3_4-slide-Kaggle 제출 & 결과 분석.md` | Day 3-4 슬라이드 |
+| `day3_5-slide-고급 기법 & 최종 최적화.md` | Day 3-5 슬라이드 (선택) |
 
 ---
 
@@ -302,6 +303,28 @@ docker run --name slidev-m1 --rm -it \
 | ⑫ | High Confidence Mistakes (이미지) / 개선 방향 표 | — |
 | ⑬ | — | 6. 심층 분석 & 7. 개선 방향 & 8. 최종 요약 |
 | ⑭ | Day 3 전체 요약 / 체크리스트 | — |
+
+---
+
+### Day 3-5: 고급 기법 & 최종 최적화 (선택)
+
+> 슬라이드: `day3_5-slide-고급 기법 & 최종 최적화.md`  
+> 노트북: `lectures/day3/start/day3_5-advanced_techniques-start.ipynb`  
+> *Day 3-4까지 완료하면 핵심 목표 달성. 시간이 남는 경우에만 진행.*
+
+| 단계 | 슬라이드 | 노트북 |
+|:---:|:---|:---|
+| ① | — | 1. 환경 설정 (🔥 repo_owner, repo_name) |
+| ② | 현재 상황 & 목표 / 고급 기법 Overview (mermaid) | — |
+| ③ | Data Augmentation 필요성 (mermaid) / 적합·부적합 예시 / Augmentation 이미지 | — |
+| ④ | — | 2. Data Augmentation (🔥 rotation_range 등 파라미터) |
+| ⑤ | Ensemble 효과 (mermaid) / 3가지 방법 / Ensemble 결과 (이미지) | — |
+| ⑥ | — | 3. Model Ensemble (🔥 np.mean Simple Average) |
+| ⑦ | TTA란? (mermaid) / TTA 횟수별 성능 (이미지) | — |
+| ⑧ | — | 4. TTA 구현 (🔥 np.mean(predictions, axis=0)) |
+| ⑨ | 최종 전략: Weighted Ensemble + TTA | — |
+| ⑩ | — | 5. 최종 제출 & 6. 최종 성능 분석 (🔥 run_name) |
+| ⑪ | Day 3 전체 성능 여정 (이미지) / 핵심 교훈 (mermaid) / 체크리스트 | — |
 
 ## 옵션 설명
 
