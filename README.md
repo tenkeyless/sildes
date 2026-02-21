@@ -72,6 +72,7 @@ docker run --name slidev-m1 --rm -it \
 | `day3_1-slide-MNIST 데이터 탐색 & 베이스라인 모델.md` | Day 3-1 슬라이드 |
 | `day3_2-slide-다양한 CNN 아키텍처 비교.md` | Day 3-2 슬라이드 |
 | `day3_3-slide-하이퍼파라미터 튜닝 with Optuna & MLflow.md` | Day 3-3 슬라이드 |
+| `day3_4-slide-Kaggle 제출 & 결과 분석.md` | Day 3-4 슬라이드 |
 
 ---
 
@@ -277,6 +278,30 @@ docker run --name slidev-m1 --rm -it \
 | ⑩ | — | 6. 결과 시각화 & 7. Best Model 재학습 (🔥 run_name) |
 | ⑪ | — | 8. Before vs After 비교 (이미지) |
 | ⑫ | 핵심 교훈 / 오늘 배운 것 / 체크리스트 | — |
+
+---
+
+### Day 3-4: Kaggle 제출 & 결과 분석
+
+> 슬라이드: `day3_4-slide-Kaggle 제출 & 결과 분석.md`  
+> 노트북: `lectures/day3/start/day3_4-kaggle_submission-start.ipynb`
+
+| 단계 | 슬라이드 | 노트북 |
+|:---:|:---|:---|
+| ① | — | 환경 설정 (🔥 repo_owner, repo_name) |
+| ② | 제출 전체 흐름 (mermaid) / Best Model 로드 개념 | — |
+| ③ | — | 1. Test Set 예측 & 2. submission.csv (🔥 ImageId·Label DataFrame 생성) |
+| ④ | Web UI 제출 방법 (이미지) / API 토큰 발급 & Colab 보안 비밀 (이미지) | — |
+| ⑤ | — | 3. Kaggle 제출 (🔥 API message) |
+| ⑥ | 제출 결과 확인 (이미지 — Public Score 0.98864) | — |
+| ⑦ | 왜 Error Analysis인가? | — |
+| ⑧ | — | 4. Error Analysis (🔥 val_pred_labels = np.argmax) |
+| ⑨ | 틀린 이미지 (이미지) / 클래스별 오류율 (이미지) | — |
+| ⑩ | — | 5. Confusion Matrix |
+| ⑪ | Confusion Matrix (이미지) / Normalized (이미지) / 오류 패턴 (mermaid) | — |
+| ⑫ | High Confidence Mistakes (이미지) / 개선 방향 표 | — |
+| ⑬ | — | 6. 심층 분석 & 7. 개선 방향 & 8. 최종 요약 |
+| ⑭ | Day 3 전체 요약 / 체크리스트 | — |
 
 ## 옵션 설명
 
