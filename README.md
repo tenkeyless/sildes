@@ -77,6 +77,7 @@ docker run --name slidev-m1 --rm -it \
 | `day4_1-slide-COVID-19 흉부 X-ray EDA.md` | Day 4-1 슬라이드 |
 | `day4_2-slide-Transfer Learning with ResNet50.md` | Day 4-2 슬라이드 |
 | `day4_3-slide-Class Imbalance 처리.md` | Day 4-3 슬라이드 |
+| `day4_4-slide-Grad-CAM & 최종 평가.md` | Day 4-4 슬라이드 |
 
 ---
 
@@ -395,6 +396,30 @@ docker run --name slidev-m1 --rm -it \
 | ⑬ | — | 7. 성능 비교 & 8. Best 모델 선정 |
 | ⑭ | 실험 결과 수치 / 결과 이미지 / Confusion Matrix (이미지) | — |
 | ⑮ | 의료 AI 비용 비대칭 (mermaid) / 체크리스트 | — |
+
+### Day 4-4: Grad-CAM & 최종 평가
+
+> 슬라이드: `day4_4-slide-Grad-CAM & 최종 평가.md`
+> 노트북: `lectures/day4/start/day4_4-gradcam_final-start.ipynb`
+
+| 단계 | 슬라이드 | 노트북 |
+|:---:|:---|:---|
+| ① | — | 0. 환경 설정 (🔥 repo_owner, repo_name) |
+| ② | Day 4 성능 개선 흐름 (mermaid + 표) | — |
+| ③ | — | 1. MLflow에서 Best 모델 로드 |
+| ④ | Grad-CAM 필요성 / 알고리즘 (mermaid) / 핵심 수식 | — |
+| ⑤ | Grad-CAM 구현 코드 (make_gradcam_heatmap) | — |
+| ⑥ | — | 2. Grad-CAM 구현 (🔥 pooled_grads, heatmap weighted sum, heatmap ReLU+normalize) |
+| ⑦ | — | 3. 클래스별 Grad-CAM 시각화 (overlay_heatmap) |
+| ⑧ | 결과 이미지 / COVID 소견 대조 (mermaid) | — |
+| ⑨ | — | 4. FP/FN 분석 |
+| ⑩ | COVID FN Grad-CAM 이미지 | — |
+| ⑪ | ROC-AUC 코드 / 결과 이미지 | — |
+| ⑫ | PR Curve 코드 / 결과 이미지 | — |
+| ⑬ | — | 5-7. ROC-AUC & PR Curve & Day 4 최종 종합 평가 |
+| ⑭ | 성능 여정 이미지 / 최종 수치 / 기술 스택 (mermaid) / 임상 적용 가능성 / 체크리스트 | — |
+
+---
 
 ## 옵션 설명
 
