@@ -80,6 +80,7 @@ docker run --name slidev-m1 --rm -it \
 | `day4_4-slide-Grad-CAM & 최종 평가.md` | Day 4-4 슬라이드 |
 | `day5_1-slide-HaGRID 손 제스처 데이터 EDA.md` | Day 5-1 슬라이드 |
 | `day5_2-slide-MobileNetV2 Transfer Learning.md` | Day 5-2 슬라이드 |
+| `day5_3-slide-모델 최적화 & 배포.md` | Day 5-3 슬라이드 |
 
 ---
 
@@ -471,6 +472,30 @@ docker run --name slidev-m1 --rm -it \
 | ⑫ | 학습 곡선 이미지 / Confusion Matrix 이미지 | — |
 | ⑬ | — | 7-10. 평가, 추론 속도, Baseline 비교 |
 | ⑭ | Baseline vs MobileNetV2 비교 표 / 체크리스트 | — |
+
+---
+
+### Day 5-3: 모델 최적화 & 배포
+
+> 슬라이드: `day5_3-slide-모델 최적화 & 배포.md`
+> 노트북: `lectures/day5/start/day5_3-optimization-start.ipynb`
+
+| 단계 | 슬라이드 | 노트북 |
+|:---:|:---|:---|
+| ① | — | 0. 환경 설정 (🔥 repo_owner, repo_name) |
+| ② | Day 5 여정 요약 (mermaid + 표) | — |
+| ③ | INT8 Quantization 원리 (mermaid + 표) / 3가지 방식 (mermaid) | — |
+| ④ | — | 1. MLflow에서 Best 모델 로드 |
+| ⑤ | TFLite 변환 흐름 (mermaid) / 핵심 설정 코드 | — |
+| ⑥ | — | 2. TFLite 변환 (🔥 INT8 설정 6가지: optimizations, representative_dataset, target_spec, input/output_type) |
+| ⑦ | 모델 크기 비교 이미지 | — |
+| ⑧ | TFLite Interpreter 추론 API 코드 | — |
+| ⑨ | — | 4. TFLite Interpreter (🔥 4줄 초기화 + 추론 3줄) |
+| ⑩ | 추론 속도 비교 이미지 | — |
+| ⑪ | 실시간 데모 흐름 (mermaid) / 실행 방법 | — |
+| ⑫ | — | 7. 로컬 데모 스크립트 생성 & 다운로드 |
+| ⑬ | Day 5 전체 여정 (mermaid) / 최종 성과 수치 | — |
+| ⑭ | 체크리스트 | — |
 
 ---
 
