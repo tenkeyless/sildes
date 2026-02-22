@@ -79,6 +79,7 @@ docker run --name slidev-m1 --rm -it \
 | `day4_3-slide-Class Imbalance 처리.md` | Day 4-3 슬라이드 |
 | `day4_4-slide-Grad-CAM & 최종 평가.md` | Day 4-4 슬라이드 |
 | `day5_1-slide-HaGRID 손 제스처 데이터 EDA.md` | Day 5-1 슬라이드 |
+| `day5_2-slide-MobileNetV2 Transfer Learning.md` | Day 5-2 슬라이드 |
 
 ---
 
@@ -356,7 +357,7 @@ docker run --name slidev-m1 --rm -it \
 
 ### Day 4-2: Transfer Learning with ResNet50
 
-> 슬라이드: `day4_2-slide-Transfer Learning with ResNet50.md`
+> 슬라이드: `day4_2-slide-Transfer Learning with ResNet50.md`  
 > 노트북: `lectures/day4/start/day4_2-transfer_learning-start.ipynb`
 
 | 단계 | 슬라이드 | 노트북 |
@@ -397,6 +398,8 @@ docker run --name slidev-m1 --rm -it \
 | ⑬ | — | 7. 성능 비교 & 8. Best 모델 선정 |
 | ⑭ | 실험 결과 수치 / 결과 이미지 / Confusion Matrix (이미지) | — |
 | ⑮ | 의료 AI 비용 비대칭 (mermaid) / 체크리스트 | — |
+
+---
 
 ### Day 4-4: Grad-CAM & 최종 평가
 
@@ -444,6 +447,30 @@ docker run --name slidev-m1 --rm -it \
 | ⑬ | — | 8. 모델 평가 (학습 곡선 / Confusion Matrix) |
 | ⑭ | 학습 곡선 이미지 / Confusion Matrix 이미지 | — |
 | ⑮ | Baseline 결과 / Day 5-2 예고 (mermaid) / 체크리스트 | — |
+
+---
+
+### Day 5-2: MobileNetV2 Transfer Learning
+
+> 슬라이드: `day5_2-slide-MobileNetV2 Transfer Learning.md`
+> 노트북: `lectures/day5/start/day5_2-mobilenetv2-start.ipynb`
+
+| 단계 | 슬라이드 | 노트북 |
+|:---:|:---|:---|
+| ① | — | 0. 환경 설정 (🔥 repo_owner, repo_name) |
+| ② | Day 5-1 결과 복기 / Depthwise Separable Conv (mermaid + 표) / Inverted Residual Block (mermaid) / MobileNetV2 전체 구조 (mermaid) | — |
+| ③ | Data Augmentation 4가지 코드 / 예시 이미지 | — |
+| ④ | — | 2. Data Augmentation (🔥 4개 레이어: RandomFlip, RandomRotation, RandomZoom, RandomTranslation) |
+| ⑤ | MobileNetV2용 preprocess_input 설명 (Baseline과 차이) | — |
+| ⑥ | — | 3. tf.data.Dataset 생성 (🔥 preprocess_input 적용) |
+| ⑦ | — | 4. MobileNetV2 모델 구축 |
+| ⑧ | 2단계 학습 전략 (mermaid) / Phase 1 코드 | — |
+| ⑨ | — | 5. Phase 1 학습 (🔥 run_name Phase 1) |
+| ⑩ | Phase 2 Fine-tuning 개념 / LR 이유 | — |
+| ⑪ | — | 6. Phase 2 Fine-tuning (🔥 base_model.trainable=True, lr=1e-5, run_name Phase 2) |
+| ⑫ | 학습 곡선 이미지 / Confusion Matrix 이미지 | — |
+| ⑬ | — | 7-10. 평가, 추론 속도, Baseline 비교 |
+| ⑭ | Baseline vs MobileNetV2 비교 표 / 체크리스트 | — |
 
 ---
 
