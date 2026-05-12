@@ -1,10 +1,10 @@
 ---
 theme: codecompose
 layout: cover
-coverAuthor: CodeCompose
-coverAuthorUrl: https://codecompose.dev
-coverDate: "2026-04-10"
-version: 2
+coverAuthor: Your Name
+coverAuthorUrl: https://example.com
+coverDate: "2026-01-01"
+version: 1
 hideInToc: true
 defaults:
   hideInToc: true
@@ -12,86 +12,48 @@ themeConfig:
   paginationX: r
   paginationY: b
   paginationPagesDisabled: [1]
-  logo: /img/logo.png
-  logoSize: 2rem
   brandColor: "#0891b2"
   sectionNav: true
-title: '인공지능 딥러닝 개론 - 딥러닝이란 무엇인가'
+title: 'Example Slide Deck'
 transition: slide-left
 mdc: true
 ---
 
+<style>
+#slidev-goto-dialog { display: none !important; }
+</style>
+
 # Example Slide Deck
 
-부제 또는 한 줄 설명
+slidev-theme-codecompose 템플릿 예시
+
+---
+layout: table-of-contents
+hideInToc: true
+---
+
+---
+layout: section
+hideInToc: false
+---
+
+# Part 1 — 기본 슬라이드
+
+`layout:`을 생략하면 default 레이아웃이 적용됩니다
 
 ---
 
-layout: default
----
+# 기본 슬라이드
+## 부제목은 `##`로
 
-# 기본 슬라이드 (default)
-
-### 소제목
-
-- 첫 번째 항목
-- 두 번째 항목
-- 세 번째 항목
-
-`# 제목` 바로 다음 줄은 일부 테마에서 부제처럼 렌더링됩니다. 본문이 부제처럼 보이지 않도록 `### 소제목`을 넣어 구조를 잡으세요.
-
----
-
-layout: center
-class: text-center
----
-
-# 섹션 구분 슬라이드 (center)
-
----
-
-layout: two-cols-header
----
-
-# 좌우 분할 (two-cols-header)
-
-::left::
-
-### 왼쪽 칸
+본문 시작. 슬라이드는 `---`로 구분합니다.
 
 - 항목 A
 - 항목 B
-
-::right::
-
-### 오른쪽 칸
-
 - 항목 C
-- 항목 D
 
----
+> 인용 블록은 보조 설명에 어울립니다.
 
-layout: top_img-bottom_text
----
-
-# 다이어그램 + 설명 (top_img-bottom_text)
-
-::top::
-
-```mermaid
-graph LR
-    A[입력] --> B[처리]
-    B --> C[출력]
-    style B fill:#bbf
-```
-
-::bottom::
-
-위에는 다이어그램, 아래에는 한 줄 설명을 배치합니다.
-
----
-
-layout: default
 ---
 
 # 코드 블록
@@ -103,27 +65,89 @@ def hello(name: str) -> str:
 print(hello("Slidev"))
 ```
 
-`---` 으로 슬라이드를 구분하고, 각 슬라이드 앞에 `layout:` 프론트매터를 명시하세요.
+```javascript
+const sum = (a, b) => a + b;
+```
 
----
-
-layout: default
 ---
 
 # 표
 
-| 항목 | 설명 |
-| :--- | :--- |
-| theme-cnu | 로컬 커스텀 테마 |
-| Slidev | 마크다운 기반 프레젠테이션 |
-| Docker | 실행 환경 격리 |
+| 항목         | 설명                          |
+| ------------ | ----------------------------- |
+| Slidev       | 마크다운 기반 프레젠테이션    |
+| codecompose  | 슬라이드 테마 (npm 패키지)    |
+| Docker       | 실행 환경 격리                |
+
+---
+layout: section
+hideInToc: false
+---
+
+# Part 2 — 레이아웃
+
+cols · bullets · statement · outro
+
+---
+layout: cols
+---
+
+# 좌우 분할 (cols)
+
+::left::
+
+### 왼쪽 칸
+
+- 항목 A
+- 항목 B
+- 항목 C
+
+::right::
+
+### 오른쪽 칸
+
+- 항목 D
+- 항목 E
+- 항목 F
 
 ---
 
-layout: center
-class: text-center
+# Mermaid 다이어그램
+
+```mermaid {scale: 0.9}
+flowchart LR
+    I["입력"] --> M["모델"] --> O["출력"]
+    style I fill:#bbdefb,stroke:#1976d2,stroke-width:2px,rx:10,ry:10
+    style M fill:#c8e6c9,stroke:#388e3c,stroke-width:2px,rx:10,ry:10
+    style O fill:#bbdefb,stroke:#1976d2,stroke-width:2px,rx:10,ry:10
+```
+
+크기는 ` ```mermaid {scale: 0.8} ` 처럼 옵션으로 조절합니다.
+
+---
+layout: bullets
 ---
 
-# 끝
+# 불릿 강조 (bullets)
 
-새 슬라이드는 이 파일을 복사해서 시작하세요.
+- 핵심 메시지를 큰 글씨로 보여줄 때
+- 항목당 한 줄로 압축
+- 너무 많이 넣지 말기
+
+---
+layout: statement
+---
+
+https://sli.dev
+
+링크나 한 줄 강조 문구를 큰 글씨로
+
+---
+layout: outro
+---
+
+# 감사합니다
+
+질문이 있으신가요?
+
+[Your Name](https://example.com)

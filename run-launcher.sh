@@ -6,8 +6,8 @@ set -e
 cd "$(dirname "$0")"
 
 # 테마 의존성: node_modules 없으면 일회성 컨테이너로 npm install (호스트에 Node 불필요)
-if [ ! -d node_modules/prism-theme-vars ]; then
-  echo "테마 의존성 설치 중 (최초 1회)..."
+if [ ! -d node_modules ]; then
+  echo "의존성 설치 중 (최초 1회)..."
   docker run --rm -v "$(pwd):/app" -w /app node:20-slim npm install --omit=dev
 fi
 
