@@ -1,13 +1,22 @@
 ---
-theme: ./theme-cnu
-background: https://cover.sli.dev
-title: "Example Slide Deck"
-info: |
-  ## 슬라이드 템플릿 예시
-  이 파일을 복사해서 새 슬라이드 덱을 시작하세요.
-class: text-center
-drawings:
-  persist: false
+theme: codecompose
+layout: cover
+coverAuthor: CodeCompose
+coverAuthorUrl: https://codecompose.dev
+coverDate: "2026-04-10"
+version: 2
+hideInToc: true
+defaults:
+  hideInToc: true
+themeConfig:
+  paginationX: r
+  paginationY: b
+  paginationPagesDisabled: [1]
+  logo: /img/logo.png
+  logoSize: 2rem
+  brandColor: "#0891b2"
+  sectionNav: true
+title: '인공지능 딥러닝 개론 - 딥러닝이란 무엇인가'
 transition: slide-left
 mdc: true
 ---
@@ -17,6 +26,7 @@ mdc: true
 부제 또는 한 줄 설명
 
 ---
+
 layout: default
 ---
 
@@ -31,6 +41,7 @@ layout: default
 `# 제목` 바로 다음 줄은 일부 테마에서 부제처럼 렌더링됩니다. 본문이 부제처럼 보이지 않도록 `### 소제목`을 넣어 구조를 잡으세요.
 
 ---
+
 layout: center
 class: text-center
 ---
@@ -38,6 +49,7 @@ class: text-center
 # 섹션 구분 슬라이드 (center)
 
 ---
+
 layout: two-cols-header
 ---
 
@@ -58,6 +70,7 @@ layout: two-cols-header
 - 항목 D
 
 ---
+
 layout: top_img-bottom_text
 ---
 
@@ -77,6 +90,7 @@ graph LR
 위에는 다이어그램, 아래에는 한 줄 설명을 배치합니다.
 
 ---
+
 layout: default
 ---
 
@@ -92,6 +106,7 @@ print(hello("Slidev"))
 `---` 으로 슬라이드를 구분하고, 각 슬라이드 앞에 `layout:` 프론트매터를 명시하세요.
 
 ---
+
 layout: default
 ---
 
@@ -104,6 +119,7 @@ layout: default
 | Docker | 실행 환경 격리 |
 
 ---
+
 layout: center
 class: text-center
 ---
