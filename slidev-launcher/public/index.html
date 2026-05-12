@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slidev 런처</title>
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --card: #1a1a20;
+      --text: #e4e4e7;
+      --muted: #71717a;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --border: #27272a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 420px;
+    }
+    li {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    li button {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      background: none;
+      border: none;
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      transition: background 0.15s;
+      outline: none;
+    }
+    li button:hover {
+      background: rgba(59, 130, 246, 0.1);
+    }
+    li button:focus-visible {
+      box-shadow: inset 0 0 0 2px var(--accent);
+    }
+    li button .name { flex: 1; }
+    li button .open {
+      color: var(--accent);
+      font-size: 0.85rem;
+    }
+    .error {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      color: #fca5a5;
+      font-size: 0.9rem;
+      max-width: 520px;
+      white-space: pre-wrap;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .loading { opacity: 0.7; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <h1>Slidev 런처</h1>
+  <p class="sub">클릭하면 Docker로 해당 슬라이드를 띄우고 브라우저에서 엽니다.</p>
+  <ul id="list"></ul>
+  <div id="error" class="error" style="display: none;"></div>
+
+  <script>
+    const listEl = document.getElementById('list');
+    const errorEl = document.getElementById('error');
+
+    function showError(msg) {
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+    }
+    function hideError() {
+      errorEl.style.display = 'none';
+    }
+
+    async function loadDecks() {
+      const res = await fetch('/api/decks');
+      if (!res.ok) throw new Error('덱 목록을 불러올 수 없습니다.');
+      const { decks } = await res.json();
+      return decks;
+    }
+
+    function render(decks) {
+      listEl.innerHTML = decks.length
+        ? decks.map((d) => `
+            <li>
+              <button type="button" data-path="${d.path}">
+                <span class="name">${d.name}</span>
+                <span class="open">열기 →</span>
+              </button>
+            </li>
+          `).join('')
+        : '<li><button type="button" disabled>slides/ 폴더에 슬라이드가 없습니다.</button></li>';
+    }
+
+    async function runSlide(path, btn) {
+      hideError();
+      btn.classList.add('loading');
+      try {
+        const res = await fetch('/api/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ path }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          const msg = data.detail
+            ? `${data.error}\n\n--- 컨테이너 로그 ---\n${data.detail}`
+            : (data.error || '실행 실패');
+          throw new Error(msg);
+        }
+        // 서버가 Slidev 포트가 열린 것을 확인한 뒤 응답하므로 바로 새 탭 열기
+        window.open('http://localhost:3030', '_blank');
+      } catch (e) {
+        showError(e.message);
+        errorEl.style.background = 'rgba(239, 68, 68, 0.15)';
+        errorEl.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+        errorEl.style.color = '#fca5a5';
+      } finally {
+        btn.classList.remove('loading');
+      }
+    }
+
+    listEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-path]');
+      if (btn) runSlide(btn.dataset.path, btn);
+    });
+
+    loadDecks()
+      .then(render)
+      .catch((e) => showError(e.message));
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "slidev-template",
+  "version": "1.0.0",
+  "description": "Slidev 슬라이드 템플릿 (Docker 기반 웹 런처 포함, codecompose 테마)",
+  "private": true,
+  "dependencies": {
+    "@slidev/cli": "^51.0.0",
+    "slidev-theme-codecompose": "^1.0.1"
+  }
+}

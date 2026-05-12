@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Slidev
+.slidev/
+dist/
+
+# Build / cache
+.vite/
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude Code (local-only settings)
+.claude/settings.local.json
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Export outputs (선택: 생성물을 저장할 경우 아래 주석 해제)
+# *.pdf
+# *.pptx
