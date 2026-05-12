@@ -1,0 +1,27 @@
+services:
+  launcher:
+    build:
+      context: ./slidev-launcher
+    image: slidev-launcher
+    container_name: slidev-launcher
+    ports:
+      - "3040:3040"
+    volumes:
+      - .:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      WORKSPACE: /workspace
+      HOST_PROJECT_PATH: ${PWD}
+      COMPOSE_FILE: /workspace/compose.yml
+      COMPOSE_PROJECT_NAME: slidev
+
+  slidev:
+    build:
+      context: .
+    image: my-slidev
+    pull_policy: build
+    profiles: ["on-demand"]
+    ports:
+      - "3030:3030"
+    volumes:
+      - ${HOST_PROJECT_PATH:-.}:/slidev

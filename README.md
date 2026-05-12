@@ -6,45 +6,45 @@
 
 ## 요구 사항
 
-- **Docker만** 있으면 됩니다 (Node/npm 설치 불필요, Apple Silicon 호환)
-- Node가 이미 설치되어 있다면 `npm` 경로로도 실행 가능
+- **Docker + Docker Compose v2** (Docker Desktop 또는 `docker compose` 플러그인 포함된 Docker Engine)
+- Node/npm 설치 불필요, Apple Silicon 호환
 
 ## 빠른 시작
 
-### 1) 웹 런처 (권장)
-
-메인 폴더에서 실행하면 `.md` 파일 목록이 브라우저에 떠서 클릭으로 슬라이드를 띄울 수 있습니다.
+### 1) 최초 빌드 (한 번만)
 
 ```bash
-chmod +x run-launcher.sh
-./run-launcher.sh
+docker compose build
 ```
 
-- 런처: <http://localhost:3040>
-- 선택한 슬라이드: <http://localhost:3030>
+런처 이미지와 Slidev 이미지를 모두 빌드합니다.
 
-처음 한 번은 Docker 이미지 빌드와 `npm install`이 자동으로 실행됩니다.
-
-### 2) 단일 파일 실행
-
-특정 파일만 띄우고 싶을 때:
+### 2) 웹 런처 기동 (권장)
 
 ```bash
-chmod +x run-slidev.sh
-./run-slidev.sh example.md
+docker compose up -d launcher
 ```
 
-### 3) npm 사용 (Node가 설치된 경우)
+브라우저에서 <http://localhost:3040> 을 열고 슬라이드 파일을 클릭하면 Slidev가 <http://localhost:3030> 에서 실행됩니다.
+
+- 런처는 백그라운드(`-d`)에서 동작
+- 슬라이드를 다른 파일로 바꾸려면 목록에서 다시 클릭하면 됨 (기존 Slidev 컨테이너는 자동 정리)
+
+### 3) 단일 파일만 띄우기 (선택)
+
+런처를 거치지 않고 특정 파일을 바로 띄울 때:
 
 ```bash
-npm run launcher
+docker compose run --rm --service-ports --name slidev-runner slidev slidev example.md --remote
 ```
 
-### 4) Docker 이미지 수동 빌드
+<http://localhost:3030> 에서 확인. Ctrl+C로 종료하면 컨테이너도 함께 제거됩니다.
+
+### 4) 정리
 
 ```bash
-docker build -t my-slidev:m1 .
-docker build -t slidev-launcher slidev-launcher/
+docker compose down                       # 런처 중지
+docker rm -f slidev-runner 2>/dev/null    # Slidev 컨테이너가 남아 있으면 제거
 ```
 
 ## 새 슬라이드 만들기
@@ -89,13 +89,15 @@ graph LR
 ```text
 .
 ├── example.md             # 새 슬라이드의 출발점이 되는 예시 파일
+├── compose.yml            # launcher + slidev 서비스 정의
 ├── slidev-launcher/       # 슬라이드 목록 웹 런처 (Node + Express)
+│   └── Dockerfile         # 런처용 이미지 (Node + docker CLI + compose plugin)
 ├── Dockerfile             # Slidev 실행용 이미지
 ├── docker-entrypoint.sh
-├── run-launcher.sh        # 런처를 Docker로 실행
-├── run-slidev.sh          # 단일 슬라이드 파일을 Docker로 실행
 └── package.json           # Slidev CLI + 테마 의존성
 ```
+
+런처는 사용자가 슬라이드를 클릭하면 호스트 Docker 소켓을 통해 `docker compose run` 으로 Slidev 컨테이너를 띄우는 구조입니다 ([slidev-launcher/server.js](slidev-launcher/server.js)).
 
 ## 라이선스
 

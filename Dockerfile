@@ -1,5 +1,5 @@
 # 1. Apple Silicon(arm64) 지원 Node.js 이미지 사용
-FROM node:20-slim
+FROM node:24-slim
 
 # 2. 작업 디렉토리 설정
 WORKDIR /slidev
