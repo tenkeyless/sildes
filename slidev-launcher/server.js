@@ -181,3 +181,19 @@ app.listen(PORT, () => {
   console.log(`슬라이드 경로: ${SLIDES_DIR}`);
   console.log(`compose 파일: ${COMPOSE_FILE}`);
 });
+
+// 종료 시 slidev-runner 컨테이너 정리 (없으면 compose down 시 네트워크 제거 실패)
+let shuttingDown = false;
+async function shutdown(signal) {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  console.log(`[Slidev 런처] ${signal} 수신, ${CONTAINER_NAME} 정리…`);
+  await new Promise((res) => {
+    const p = spawn('docker', ['rm', '-f', CONTAINER_NAME], { stdio: 'ignore' });
+    p.on('close', () => res());
+    p.on('error', () => res());
+  });
+  process.exit(0);
+}
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));

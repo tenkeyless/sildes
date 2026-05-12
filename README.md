@@ -43,9 +43,10 @@ docker compose run --rm --service-ports --name slidev-runner slidev slidev slide
 ### 4) 정리
 
 ```bash
-docker compose down                       # 런처 중지
-docker rm -f slidev-runner 2>/dev/null    # Slidev 컨테이너가 남아 있으면 제거
+docker compose down
 ```
+
+런처가 종료 시 자동으로 `slidev-runner` 컨테이너를 함께 정리하므로 한 번이면 충분합니다.
 
 ## 새 슬라이드 만들기
 
