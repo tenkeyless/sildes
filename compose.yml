@@ -1,0 +1,35 @@
+name: slides
+
+services:
+  launcher:
+    build:
+      context: ./slidev-launcher
+    image: slidev-launcher
+    container_name: slidev-launcher
+    ports:
+      - "3040:3040"
+    volumes:
+      - .:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      WORKSPACE: /workspace
+      HOST_PROJECT_PATH: ${PWD}
+    depends_on:
+      slidev:
+        condition: service_started
+
+  # 상시 가동되는 idle 컨테이너. launcher가 docker exec로 그 안에서
+  # slidev 프로세스를 띄우고 죽이는 식으로 슬라이드를 전환.
+  # 컨테이너가 살아있으므로 Vite의 dep pre-bundle 캐시가 보존되어
+  # 두 번째 클릭부터는 startup이 훨씬 빨라짐.
+  slidev:
+    build:
+      context: .
+    image: my-slidev
+    pull_policy: build
+    container_name: slidev-runner
+    ports:
+      - "3030:3030"
+    volumes:
+      - ${HOST_PROJECT_PATH:-.}:/slidev
+    command: ["sleep", "infinity"]

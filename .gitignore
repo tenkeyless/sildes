@@ -23,6 +23,9 @@ Thumbs.db
 *.swp
 *.swo
 
+# Claude Code (local-only settings)
+.claude/settings.local.json
+
 # Environment
 .env
 .env.*
