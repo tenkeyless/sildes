@@ -2,7 +2,7 @@
 
 [Slidev](https://sli.dev) 기반 마크다운 슬라이드 템플릿입니다. Docker로 바로 실행할 수 있는 웹 런처를 포함하고 있습니다. 기본 테마는 [slidev-theme-codecompose](https://www.npmjs.com/package/slidev-theme-codecompose)이며, `package.json`에서 다른 테마로 교체할 수 있습니다.
 
-이 저장소를 **Use this template** 버튼으로 복제하거나 클론한 뒤, [example.md](example.md)를 복사해 새 슬라이드 덱을 만드세요.
+이 저장소를 **Use this template** 버튼으로 복제하거나 클론한 뒤, [slides/example/](slides/example/)을 복사해 새 슬라이드 덱을 만드세요.
 
 ## 요구 사항
 
@@ -32,10 +32,10 @@ docker compose up -d launcher
 
 ### 3) 단일 파일만 띄우기 (선택)
 
-런처를 거치지 않고 특정 파일을 바로 띄울 때:
+런처를 거치지 않고 특정 슬라이드를 바로 띄울 때:
 
 ```bash
-docker compose run --rm --service-ports --name slidev-runner slidev slidev example.md --remote
+docker compose run --rm --service-ports --name slidev-runner slidev slidev slides/example/index.md --remote
 ```
 
 <http://localhost:3030> 에서 확인. Ctrl+C로 종료하면 컨테이너도 함께 제거됩니다.
@@ -49,12 +49,31 @@ docker rm -f slidev-runner 2>/dev/null    # Slidev 컨테이너가 남아 있으
 
 ## 새 슬라이드 만들기
 
-1. [example.md](example.md)를 복사해 원하는 이름의 `.md` 파일을 만듭니다 (예: `my-deck.md`).
+`slides/` 폴더 안에 두 가지 형태 중 하나로 추가합니다.
+
+**(A) 단일 파일** — 이미지/리소스가 거의 없을 때:
+
+```text
+slides/my-deck.md
+```
+
+**(B) 폴더 + index.md** — 이미지/컴포넌트 등 자산을 함께 두고 싶을 때 (권장):
+
+```text
+slides/my-deck/
+├── index.md
+└── public/           # Slidev가 정적 자산 폴더로 인식
+    └── img/foo.png   # 슬라이드에서는 /img/foo.png 로 참조
+```
+
+작성 순서:
+
+1. [slides/example/](slides/example/)를 복사해서 원하는 이름의 폴더(또는 파일)로 만듭니다.
 2. 프론트매터에서 `title` 등 메타데이터를 수정합니다.
 3. `theme: codecompose`를 그대로 두거나, 원하는 [Slidev 테마](https://sli.dev/themes/gallery)로 교체합니다 (`package.json`의 의존성도 함께 교체).
-4. `---`로 슬라이드를 구분하고, 슬라이드 앞에 `layout:`을 명시합니다.
+4. `---`로 슬라이드를 구분하고, 필요 시 슬라이드 앞에 `layout:`을 명시합니다.
 
-웹 런처를 켜둔 상태에서 새 `.md` 파일을 만들면 목록에 자동으로 노출됩니다 (`README*.md`는 제외).
+웹 런처를 켜둔 상태에서 새 파일/폴더를 추가하면 목록에 자동으로 노출됩니다.
 
 ### 자주 쓰는 레이아웃 (codecompose)
 
@@ -88,7 +107,9 @@ graph LR
 
 ```text
 .
-├── example.md             # 새 슬라이드의 출발점이 되는 예시 파일
+├── slides/                # 슬라이드 덱이 모이는 폴더
+│   └── example/           # 예시 덱 (폴더 + index.md 패턴)
+│       └── index.md
 ├── compose.yml            # launcher + slidev 서비스 정의
 ├── slidev-launcher/       # 슬라이드 목록 웹 런처 (Node + Express)
 │   └── Dockerfile         # 런처용 이미지 (Node + docker CLI + compose plugin)

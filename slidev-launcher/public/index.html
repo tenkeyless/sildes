@@ -110,34 +110,34 @@
       errorEl.style.display = 'none';
     }
 
-    async function loadFiles() {
-      const res = await fetch('/api/files');
-      if (!res.ok) throw new Error('파일 목록을 불러올 수 없습니다.');
-      const { files } = await res.json();
-      return files;
+    async function loadDecks() {
+      const res = await fetch('/api/decks');
+      if (!res.ok) throw new Error('덱 목록을 불러올 수 없습니다.');
+      const { decks } = await res.json();
+      return decks;
     }
 
-    function render(files) {
-      listEl.innerHTML = files.length
-        ? files.map((f) => `
+    function render(decks) {
+      listEl.innerHTML = decks.length
+        ? decks.map((d) => `
             <li>
-              <button type="button" data-file="${f}">
-                <span class="name">${f}</span>
+              <button type="button" data-path="${d.path}">
+                <span class="name">${d.name}</span>
                 <span class="open">열기 →</span>
               </button>
             </li>
           `).join('')
-        : '<li><button type="button" disabled>슬라이드 .md 파일이 없습니다.</button></li>';
+        : '<li><button type="button" disabled>slides/ 폴더에 슬라이드가 없습니다.</button></li>';
     }
 
-    async function runSlide(file, btn) {
+    async function runSlide(path, btn) {
       hideError();
       btn.classList.add('loading');
       try {
         const res = await fetch('/api/run', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ file }),
+          body: JSON.stringify({ path }),
         });
         const data = await res.json();
         if (!res.ok) {
@@ -146,18 +146,8 @@
             : (data.error || '실행 실패');
           throw new Error(msg);
         }
-        // Slidev가 컨테이너 안에서 포트를 열기까지 잠시 대기 후 새 탭 열기
-        showError('슬라이드를 띄우는 중… 잠시 후 브라우저가 열립니다.');
-        errorEl.style.background = 'rgba(59, 130, 246, 0.15)';
-        errorEl.style.borderColor = 'rgba(59, 130, 246, 0.3)';
-        errorEl.style.color = '#93c5fd';
-        setTimeout(() => {
-          hideError();
-          errorEl.style.background = '';
-          errorEl.style.borderColor = '';
-          errorEl.style.color = '';
-          window.open('http://localhost:3030', '_blank');
-        }, 2000);
+        // 서버가 Slidev 포트가 열린 것을 확인한 뒤 응답하므로 바로 새 탭 열기
+        window.open('http://localhost:3030', '_blank');
       } catch (e) {
         showError(e.message);
         errorEl.style.background = 'rgba(239, 68, 68, 0.15)';
@@ -169,11 +159,11 @@
     }
 
     listEl.addEventListener('click', (e) => {
-      const btn = e.target.closest('button[data-file]');
-      if (btn) runSlide(btn.dataset.file, btn);
+      const btn = e.target.closest('button[data-path]');
+      if (btn) runSlide(btn.dataset.path, btn);
     });
 
-    loadFiles()
+    loadDecks()
       .then(render)
       .catch((e) => showError(e.message));
   </script>

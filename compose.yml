@@ -1,3 +1,5 @@
+name: slides
+
 services:
   launcher:
     build:
@@ -13,7 +15,6 @@ services:
       WORKSPACE: /workspace
       HOST_PROJECT_PATH: ${PWD}
       COMPOSE_FILE: /workspace/compose.yml
-      COMPOSE_PROJECT_NAME: slidev
 
   slidev:
     build:
