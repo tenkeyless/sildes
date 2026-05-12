@@ -19,34 +19,25 @@ docker compose build
 
 런처 이미지와 Slidev 이미지를 모두 빌드합니다.
 
-### 2) 웹 런처 기동 (권장)
+### 2) 기동 (권장)
 
 ```bash
-docker compose up -d launcher
+docker compose up -d
 ```
 
-브라우저에서 <http://localhost:3040> 을 열고 슬라이드 파일을 클릭하면 Slidev가 <http://localhost:3030> 에서 실행됩니다.
+런처(`slidev-launcher`)와 상시 가동되는 Slidev 컨테이너(`slidev-runner`)가 함께 올라옵니다.
 
-- 런처는 백그라운드(`-d`)에서 동작
-- 슬라이드를 다른 파일로 바꾸려면 목록에서 다시 클릭하면 됨 (기존 Slidev 컨테이너는 자동 정리)
+- 브라우저에서 <http://localhost:3040> 을 열고 슬라이드를 클릭
+- Slidev는 <http://localhost:3030> 에서 실행
+- 다른 슬라이드를 클릭하면 같은 컨테이너 안에서 Slidev 프로세스만 재시작 (컨테이너 자체는 유지 → Vite 캐시 보존으로 두 번째 클릭부터 더 빠름)
 
-### 3) 단일 파일만 띄우기 (선택)
-
-런처를 거치지 않고 특정 슬라이드를 바로 띄울 때:
-
-```bash
-docker compose run --rm --service-ports --name slidev-runner slidev slidev slides/example/index.md --remote
-```
-
-<http://localhost:3030> 에서 확인. Ctrl+C로 종료하면 컨테이너도 함께 제거됩니다.
-
-### 4) 정리
+### 3) 정리
 
 ```bash
 docker compose down
 ```
 
-런처가 종료 시 자동으로 `slidev-runner` 컨테이너를 함께 정리하므로 한 번이면 충분합니다.
+런처와 Slidev 컨테이너, 네트워크까지 한 번에 정리됩니다.
 
 ## 새 슬라이드 만들기
 
@@ -119,7 +110,7 @@ graph LR
 └── package.json           # Slidev CLI + 테마 의존성
 ```
 
-런처는 사용자가 슬라이드를 클릭하면 호스트 Docker 소켓을 통해 `docker compose run` 으로 Slidev 컨테이너를 띄우는 구조입니다 ([slidev-launcher/server.js](slidev-launcher/server.js)).
+런처(`slidev-launcher`)는 사용자가 슬라이드를 클릭하면 호스트 Docker 소켓을 통해 상시 가동 중인 `slidev-runner` 컨테이너에 `docker exec` 로 Slidev 프로세스를 띄우는 구조입니다 ([slidev-launcher/server.js](slidev-launcher/server.js)). 컨테이너를 살린 채 프로세스만 교체하므로 Vite의 dep pre-bundle 캐시가 유지되어, 같은 세션에서 두 번째 클릭부터는 startup이 빨라집니다.
 
 ## 라이선스
 

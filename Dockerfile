@@ -1,21 +1,23 @@
-# 1. Apple Silicon(arm64) 지원 Node.js 이미지 사용
+# Apple Silicon(arm64) 지원 Node.js 이미지
 FROM node:24-slim
 
-# 2. 작업 디렉토리 설정
 WORKDIR /slidev
 
-# 3. Slidev 및 관련 종속성 설치 (M1 네이티브 빌드)
-# playwright 등의 브라우저는 무거우므로 제외하거나 필요시 추가
+# procps: launcher가 docker exec로 이전 slidev 프로세스를 종료할 때 pkill 사용
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends procps \
+  && rm -rf /var/lib/apt/lists/*
+
+# Slidev CLI 설치 (실제 슬라이드는 호스트에서 마운트되는 /slidev 에서 실행)
 RUN npm install -g @slidev/cli @antfu/utils
 
-# 4. 컨테이너 시작 시 /slidev에서 npm install (theme-cnu 등 로컬 테마 의존성)
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-# 5. 포트 설정
 EXPOSE 3030
 
-# 6. 실행 명령 (실제 파일명은 런처/run 시 인자로 전달됨)
+# compose.yml에서 command를 sleep infinity로 오버라이드하여 idle 컨테이너로 사용.
+# launcher가 docker exec로 그 안에서 slidev를 띄움.
 CMD ["slidev", "--remote"]
 

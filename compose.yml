@@ -14,15 +14,22 @@ services:
     environment:
       WORKSPACE: /workspace
       HOST_PROJECT_PATH: ${PWD}
-      COMPOSE_FILE: /workspace/compose.yml
+    depends_on:
+      slidev:
+        condition: service_started
 
+  # 상시 가동되는 idle 컨테이너. launcher가 docker exec로 그 안에서
+  # slidev 프로세스를 띄우고 죽이는 식으로 슬라이드를 전환.
+  # 컨테이너가 살아있으므로 Vite의 dep pre-bundle 캐시가 보존되어
+  # 두 번째 클릭부터는 startup이 훨씬 빨라짐.
   slidev:
     build:
       context: .
     image: my-slidev
     pull_policy: build
-    profiles: ["on-demand"]
+    container_name: slidev-runner
     ports:
       - "3030:3030"
     volumes:
       - ${HOST_PROJECT_PATH:-.}:/slidev
+    command: ["sleep", "infinity"]

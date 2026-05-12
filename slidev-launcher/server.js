@@ -8,16 +8,15 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const app = express();
 const PORT = 3040;
 
-// Docker로 런처를 띄울 때: WORKSPACE=마운트 경로, HOST_PROJECT_PATH=호스트 절대경로(필수)
+// Docker로 런처를 띄울 때: WORKSPACE=마운트 경로, HOST_PROJECT_PATH=호스트 절대경로
 const IN_DOCKER = process.env.WORKSPACE != null;
 const LIST_DIR = IN_DOCKER ? process.env.WORKSPACE : resolve(__dirname, '..');
 const SLIDES_DIR = join(LIST_DIR, 'slides');
-const COMPOSE_FILE = process.env.COMPOSE_FILE || resolve(LIST_DIR, 'compose.yml');
 const CONTAINER_NAME = 'slidev-runner';
 const SLIDEV_HOST = process.env.SLIDEV_HOST || CONTAINER_NAME;
 const SLIDEV_PORT = 3030;
 
-// 동시 클릭 직렬화: 동시 요청이 와도 순차적으로 처리 (Docker 컨테이너 이름 충돌 방지)
+// 동시 클릭 직렬화: kill → start 사이에 다른 요청이 끼어들어 포트 충돌 나는 것 방지
 let runChain = Promise.resolve();
 function serialize(fn) {
   const next = runChain.then(fn, fn);
@@ -73,7 +72,7 @@ app.get('/api/decks', async (_req, res) => {
   }
 });
 
-/** Slidev 컨테이너의 포트가 열릴 때까지 active polling */
+/** Slidev 포트가 열릴 때까지 active polling */
 async function waitForSlidev(timeoutMs = 15000) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
@@ -86,12 +85,27 @@ async function waitForSlidev(timeoutMs = 15000) {
     } catch {
       // 아직 준비 안 됨
     }
-    await new Promise((r) => setTimeout(r, 150));
+    await new Promise((r) => setTimeout(r, 100));
   }
   return false;
 }
 
-/** POST /api/run — 선택한 path로 Docker Slidev 실행 (기존 컨테이너 중지 후 재실행) */
+function dockerRun(args, opts = {}) {
+  return new Promise((resolve, reject) => {
+    const p = spawn('docker', args, { stdio: 'pipe', ...opts });
+    let stdout = '';
+    let stderr = '';
+    p.stdout?.on('data', (d) => (stdout += d.toString()));
+    p.stderr?.on('data', (d) => (stderr += d.toString()));
+    p.on('close', (code) => {
+      if (code === 0) return resolve({ stdout, stderr });
+      const msg = [stderr, stdout].filter(Boolean).join('\n').trim() || `exit ${code}`;
+      reject(new Error(msg));
+    });
+  });
+}
+
+/** POST /api/run — 선택한 path로 Slidev 실행 (이전 slidev 종료 후 새로 띄움) */
 app.post('/api/run', async (req, res) => {
   const path = req.body?.path;
   if (!path || typeof path !== 'string') {
@@ -102,97 +116,61 @@ app.post('/api/run', async (req, res) => {
     return res.status(400).json({ error: '잘못된 경로입니다.' });
   }
 
-  const run = (cmd, args, opts = {}) =>
-    new Promise((resolve, reject) => {
-      const p = spawn(cmd, args, { stdio: 'pipe', ...opts });
-      let stdout = '';
-      let stderr = '';
-      p.stdout?.on('data', (d) => (stdout += d.toString()));
-      p.stderr?.on('data', (d) => (stderr += d.toString()));
-      p.on('close', (code) => {
-        if (code === 0) return resolve({ stdout, stderr });
-        const msg = [stderr, stdout].filter(Boolean).join('\n').trim() || `exit ${code}`;
-        reject(new Error(msg));
-      });
-    });
-
-  /** 명령 실행 후 stdout 반환 (실패 시 throw) */
-  const runOut = async (cmd, args) => {
-    const { stdout } = await run(cmd, args);
-    return stdout.trim();
-  };
-
-  const compose = (...args) => ['compose', '-f', COMPOSE_FILE, ...args];
-
   try {
     const result = await serialize(async () => {
-      // 기존 slidev 컨테이너 정리 (rm -f 가 stop+remove 를 같이 수행)
-      try {
-        await run('docker', ['rm', '-f', CONTAINER_NAME]);
-        console.log(`[Slidev 런처] 기존 컨테이너 제거: ${CONTAINER_NAME}`);
-      } catch {
-        // 컨테이너가 없으면 정상
-      }
+      // 1. 이전 slidev 프로세스 종료. TERM 후 잠시 대기, 살아있으면 KILL.
+      //    포트(3030)가 해제될 때까지 기다림.
+      await dockerRun(['exec', CONTAINER_NAME, 'sh', '-c', `
+        if pgrep -f "slidev" >/dev/null 2>&1; then
+          pkill -TERM -f "slidev" 2>/dev/null || true
+          for i in $(seq 1 30); do
+            pgrep -f "slidev" >/dev/null 2>&1 || break
+            sleep 0.05
+          done
+          pkill -KILL -f "slidev" 2>/dev/null || true
+        fi
+      `]).catch((e) => {
+        console.warn('[Slidev 런처] 이전 프로세스 정리 중 경고:', e.message);
+      });
 
-      // 새 컨테이너 실행: compose.yml의 slidev 서비스 정의를 사용하고 명령만 오버라이드
-      await run('docker', compose(
-        'run', '-d', '--rm', '--name', CONTAINER_NAME, '--service-ports',
-        '--quiet-pull',
-        'slidev', 'slidev', path, '--remote',
-      ));
+      // 2. 새 slidev 프로세스 detach 실행. 컨테이너 안에서 백그라운드로 띄움.
+      //    nohup + & 로 띄워서 docker exec가 바로 리턴하고, 출력은 컨테이너 stdout으로.
+      await dockerRun(['exec', '-d', CONTAINER_NAME, 'sh', '-c',
+        `cd /slidev && exec slidev "${path}" --remote`]);
 
-      // Slidev 포트가 응답할 때까지 active polling
+      // 3. 포트가 응답할 때까지 active polling
       const ready = await waitForSlidev();
       if (ready) {
         return { status: 200, body: { ok: true, url: 'http://localhost:3030' } };
       }
-
-      // 준비 안 됨 → 컨테이너 상태 확인
-      const psOut = await runOut('docker', ['ps', '-q', '-f', `name=${CONTAINER_NAME}`]).catch(() => '');
-      let logs = '';
-      try {
-        logs = await runOut('docker', ['logs', CONTAINER_NAME]);
-      } catch {
-        logs = '(로그 없음)';
-      }
-      if (!psOut) {
-        await run('docker', ['rm', '-f', CONTAINER_NAME]).catch(() => {});
-        console.error('[Slidev 런처] 컨테이너가 바로 종료됨:', logs);
-        return { status: 500, body: {
-          error: '컨테이너가 바로 종료되었습니다. Slidev 실행에 실패한 것 같습니다.',
-          detail: logs,
-        }};
-      }
       return { status: 504, body: {
         error: 'Slidev가 시간 안에 응답하지 않았습니다.',
-        detail: logs,
       }};
     });
 
     res.status(result.status).json(result.body);
   } catch (err) {
-    console.error('[Slidev 런처] Docker 실행 실패:', err.message);
-    res.status(500).json({ error: err.message || 'Docker 실행 실패' });
+    console.error('[Slidev 런처] 실행 실패:', err.message);
+    res.status(500).json({ error: err.message || '실행 실패' });
   }
 });
 
 app.listen(PORT, () => {
   console.log(`Slidev 런처: http://localhost:${PORT}`);
   console.log(`슬라이드 경로: ${SLIDES_DIR}`);
-  console.log(`compose 파일: ${COMPOSE_FILE}`);
 });
 
-// 종료 시 slidev-runner 컨테이너 정리 (없으면 compose down 시 네트워크 제거 실패)
+// 종료 시 컨테이너 안의 slidev 프로세스 정리 (컨테이너 자체는 compose가 관리)
 let shuttingDown = false;
 async function shutdown(signal) {
   if (shuttingDown) return;
   shuttingDown = true;
-  console.log(`[Slidev 런처] ${signal} 수신, ${CONTAINER_NAME} 정리…`);
-  await new Promise((res) => {
-    const p = spawn('docker', ['rm', '-f', CONTAINER_NAME], { stdio: 'ignore' });
-    p.on('close', () => res());
-    p.on('error', () => res());
-  });
+  console.log(`[Slidev 런처] ${signal} 수신, slidev 프로세스 정리…`);
+  try {
+    await dockerRun(['exec', CONTAINER_NAME, 'sh', '-c', 'pkill -KILL -f slidev 2>/dev/null || true']);
+  } catch {
+    // 컨테이너가 이미 정지됐을 수 있음 — 무시
+  }
   process.exit(0);
 }
 process.on('SIGTERM', () => shutdown('SIGTERM'));
