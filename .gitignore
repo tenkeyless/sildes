@@ -34,3 +34,5 @@ Thumbs.db
 # Export outputs (선택: 생성물을 저장할 경우 아래 주석 해제)
 # *.pdf
 # *.pptx
+slides/**
+!slides/example/index.md
