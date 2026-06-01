@@ -5,6 +5,14 @@
 형식은 [Keep a Changelog](https://keepachangelog.com/ko/1.0.0/)를 따르며,
 이 프로젝트는 [Semantic Versioning](https://semver.org/lang/ko/)을 준수합니다.
 
+## 1.0.2 - 2026-06-01
+
+### 변경됨 1.0.2
+
+- **`.gitignore` 에 사용자 슬라이드 제외 규칙 추가**
+  - `slides/**` 를 무시하여 사용자가 작성하는 슬라이드 덱이 저장소에 커밋되지 않도록 함
+  - `!slides/example/index.md` 예외로 예제 덱은 템플릿에 계속 포함
+
 ## 1.0.1 - 2026-06-01
 
 ### 수정됨 1.0.1
