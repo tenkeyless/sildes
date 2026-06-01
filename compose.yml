@@ -16,7 +16,7 @@ services:
       HOST_PROJECT_PATH: ${PWD}
     depends_on:
       slidev:
-        condition: service_started
+        condition: service_healthy
 
   # 상시 가동되는 idle 컨테이너. launcher가 docker exec로 그 안에서
   # slidev 프로세스를 띄우고 죽이는 식으로 슬라이드를 전환.
@@ -33,3 +33,11 @@ services:
     volumes:
       - ${HOST_PROJECT_PATH:-.}:/slidev
     command: ["sleep", "infinity"]
+    # 첫 기동 시 entrypoint가 npm install 을 수행한 뒤 /tmp/slidev-ready 마커 생성.
+    # launcher 는 depends_on: service_healthy 로 이 시점까지 기다림.
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/slidev-ready"]
+      interval: 2s
+      timeout: 3s
+      retries: 60
+      start_period: 5s

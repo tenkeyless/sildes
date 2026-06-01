@@ -27,6 +27,8 @@ docker compose up -d
 
 런처(`slidev-launcher`)와 상시 가동되는 Slidev 컨테이너(`slidev-runner`)가 함께 올라옵니다.
 
+> **최초 1회**는 Slidev 컨테이너가 `node_modules/` 가 비어있는 것을 감지해 `npm install` 을 자동 실행하므로 30초~1분 정도 걸립니다. healthcheck가 통과한 뒤에 launcher가 떠서 클릭 가능 상태가 되므로, `docker compose up -d` 가 리턴되면 바로 사용해도 됩니다. 다음 기동부터는 즉시 올라옵니다.
+
 - 브라우저에서 <http://localhost:3040> 을 열고 슬라이드를 클릭
 - Slidev는 <http://localhost:3030> 에서 실행
 - 다른 슬라이드를 클릭하면 같은 컨테이너 안에서 Slidev 프로세스만 재시작 (컨테이너 자체는 유지 → Vite 캐시 보존으로 두 번째 클릭부터 더 빠름)

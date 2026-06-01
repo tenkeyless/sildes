@@ -5,6 +5,28 @@
 형식은 [Keep a Changelog](https://keepachangelog.com/ko/1.0.0/)를 따르며,
 이 프로젝트는 [Semantic Versioning](https://semver.org/lang/ko/)을 준수합니다.
 
+## 1.0.1 - 2026-06-01
+
+### 수정됨 1.0.1
+
+- **`node_modules` 미준비 시 Slidev 컨테이너가 기동하지 못하던 문제 수정**
+  - 기존에는 `node_modules/` 를 호스트에서 미리 준비해 마운트한다고 가정 → 준비되지 않은 환경에서는 테마 등 프로젝트 의존성이 없어 슬라이드 실행 실패
+  - `docker-entrypoint.sh` 가 `/slidev/node_modules` 부재를 감지하면 최초 1회 `npm install --no-audit --no-fund` 을 자동 수행 (약 15초~1분)
+  - 설치 실패 시 명확히 에러를 출력하고 컨테이너를 중단 (`set -e`)
+
+### 변경됨 1.0.1
+
+- **launcher 기동 타이밍 정합성 개선**
+  - `slidev-runner` 에 healthcheck 추가 — entrypoint 가 의존성 설치 완료 후 생성하는 `/tmp/slidev-ready` 마커를 확인 (2초 간격, 최대 60회)
+  - launcher 의 `depends_on` 조건을 `service_started` → `service_healthy` 로 변경 → 의존성 설치가 끝난 뒤에야 launcher 가 떠서, `docker compose up -d` 리턴 직후 바로 클릭 가능
+  - README 에 최초 1회 자동 설치로 인한 초기 지연(30초~1분) 안내 추가
+
+### 기술 사항 1.0.1
+
+- `package-lock.json` 메타데이터 정리
+  - 패키지명 `app` → `slidev-template`, `version: 1.0.0` 명시
+  - `slidev-theme-codecompose` 의존성 범위 `latest` → `^1.0.1` 로 고정
+
 ## 1.0.0 - 2026-05-12
 
 ### 추가됨 1.0.0
